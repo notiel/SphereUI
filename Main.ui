@@ -759,6 +759,9 @@
       <property name="text">
        <string>Выбрать/сбросить все</string>
       </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="8" column="0" colspan="9">
@@ -812,6 +815,9 @@
         </item>
         <item row="1" column="2">
          <widget class="QSpinBox" name="SpinTOBrFrom">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="maximum">
            <number>255</number>
           </property>
@@ -862,12 +868,21 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="maximum">
+           <number>99999999</number>
+          </property>
+          <property name="value">
+           <number>1000</number>
+          </property>
          </widget>
         </item>
         <item row="1" column="0">
          <widget class="QCheckBox" name="CBTOBrightness">
           <property name="text">
            <string>Одинаковая яркость</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -896,10 +911,21 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QSpinBox" name="SpinToPeriodFrom"/>
+         <widget class="QSpinBox" name="SpinToPeriodFrom">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="2" column="4">
-         <widget class="QSpinBox" name="SpinTOPeriodTo"/>
+         <widget class="QSpinBox" name="SpinTOPeriodTo">
+          <property name="maximum">
+           <number>999999</number>
+          </property>
+          <property name="value">
+           <number>1000</number>
+          </property>
+         </widget>
         </item>
         <item row="1" column="3">
          <widget class="QLabel" name="LblToBrTo">
@@ -915,6 +941,13 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="5">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>ms</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -922,6 +955,26 @@
         <string>Какой-то другой эффект</string>
        </attribute>
       </widget>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QCheckBox" name="CBGreen">
+      <property name="text">
+       <string>Все зеленые</string>
+      </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QCheckBox" name="CBBlue">
+      <property name="text">
+       <string>Все синие</string>
+      </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
    </layout>
