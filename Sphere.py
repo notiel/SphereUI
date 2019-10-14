@@ -45,6 +45,14 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
         self.blue_list = [self.CBB1, self.CBB2, self.CBB3, self.CBB4, self.CBB5, self.CBB6, self.CBB7, self.CBB8,
                           self.CBB9]
+
+        self.mapping = {self.CBG1: 1, self.CBG2: 2, self.CBG3: 3, self.CBG4: 4, self.CBG5: 5,
+                        self.CBG6: 6, self.CBG7: 7, self.CBG8: 8, self.CBG9: 9, self.CBG10: 10,
+                        self.CBG21: 21, self.CBG22: 22, self.CBG23: 3, self.CBG24: 24, self.CBG25: 5,
+                        self.CBG26: 26, self.CBG27: 27, self.CBG28: 8, self.CBG29: 29, self.CBG30: 10,
+                        self.CBG31: 31, self.CBG32: 32, self.CBG33: 3, self.CBG34: 4, self.CBG35: 5,
+                        self.CBG36: 36, self.CBB1: 37, self.CBB2: 38, self.CBB3: 39, self.CBB4: 40,
+                        self.CBB5: 41, self.CBB6: 42, self.CBB7: 43, self.CBB8: 44, self.CBB9: 45}
         self.effect = dict()
         for i in range(1, 46):
             self.effect[i] = list()
@@ -128,8 +136,9 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         if self.tabWidget.currentIndex() == 0:
+            used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
             if not self.CBTOStart.isChecked():
-                for led in self.effect.values():
+                for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
                     n = random.randint(self.SpinTOStartFrom.value(), self.SpinToStartTo)
                     for i in range(n):
                         led.append(0)
@@ -138,7 +147,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             period_start = self.SpinToPeriodFrom.value() if not self.CBTOPeriod.isChecked() else \
                 self.SpinTOPeriodTo.value()
             period_end = self.SpinTOPeriodTo.value()
-            for led in self.effect.values():
+            for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
                 period = max(period_start + random.randint(0, period_end - period_start), 1)
                 brightness = start_br + random.randint(0, end_br - start_br)
                 step = (brightness / period) * 10
