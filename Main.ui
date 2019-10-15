@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1027</width>
-    <height>436</height>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,8 +15,8 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="1">
-     <widget class="QCheckBox" name="CBB2">
+    <item row="5" column="0">
+     <widget class="QCheckBox" name="CBB1">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -27,12 +27,12 @@
        <string notr="true">color: blue</string>
       </property>
       <property name="text">
-       <string>B2</string>
+       <string>B1</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="5">
-     <widget class="QCheckBox" name="CBG21">
+    <item row="4" column="7">
+     <widget class="QCheckBox" name="CBG29">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -43,7 +43,7 @@
        <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>G21</string>
+       <string>G29</string>
       </property>
      </widget>
     </item>
@@ -79,22 +79,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="2">
-     <widget class="QCheckBox" name="CBB3">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: blue</string>
-      </property>
-      <property name="text">
-       <string>B3</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="1">
      <widget class="QCheckBox" name="CBG7">
       <property name="font">
@@ -124,6 +108,22 @@
       </property>
       <property name="text">
        <string>G31</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="5">
+     <widget class="QCheckBox" name="CBG21">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G21</string>
       </property>
      </widget>
     </item>
@@ -159,6 +159,22 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="1">
+     <widget class="QCheckBox" name="CBB2">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: blue</string>
+      </property>
+      <property name="text">
+       <string>B2</string>
+      </property>
+     </widget>
+    </item>
     <item row="7" column="2">
      <widget class="QCheckBox" name="CBG12">
       <property name="font">
@@ -175,8 +191,8 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QCheckBox" name="CBB1">
+    <item row="6" column="2">
+     <widget class="QCheckBox" name="CBB3">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -187,55 +203,7 @@
        <string notr="true">color: blue</string>
       </property>
       <property name="text">
-       <string>B1</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="7">
-     <widget class="QCheckBox" name="CBG29">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G29</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="8">
-     <widget class="QCheckBox" name="CBG34">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G34</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="7">
-     <widget class="QCheckBox" name="CBG32">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G32</string>
+       <string>B3</string>
       </property>
      </widget>
     </item>
@@ -255,38 +223,6 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
-     <widget class="QCheckBox" name="CBG8">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G8</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="5">
-     <widget class="QCheckBox" name="CBG22">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G22</string>
-      </property>
-     </widget>
-    </item>
     <item row="4" column="1">
      <widget class="QCheckBox" name="CBG5">
       <property name="font">
@@ -300,57 +236,6 @@
       </property>
       <property name="text">
        <string>G5</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QCheckBox" name="CBG6">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G6</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="4">
-     <widget class="QLabel" name="LblLeds">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Выберите светодиоды для эффекта:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="6" colspan="3">
-     <widget class="QPushButton" name="BtnCreate">
-      <property name="text">
-       <string>Создать эффект для выбранных диодов</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="8">
-     <widget class="QCheckBox" name="CBG33">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G33</string>
       </property>
      </widget>
     </item>
@@ -370,8 +255,8 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="2">
-     <widget class="QCheckBox" name="CBG11">
+    <item row="5" column="1">
+     <widget class="QCheckBox" name="CBG6">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -382,12 +267,12 @@
        <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>G11</string>
+       <string>G6</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QCheckBox" name="CBG3">
+    <item row="4" column="4">
+     <widget class="QCheckBox" name="CBG18">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -398,7 +283,23 @@
        <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>G3</string>
+       <string>G18</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="8">
+     <widget class="QCheckBox" name="CBG33">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G33</string>
       </property>
      </widget>
     </item>
@@ -434,6 +335,38 @@
       </property>
      </widget>
     </item>
+    <item row="7" column="1">
+     <widget class="QCheckBox" name="CBG8">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G8</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="5">
+     <widget class="QCheckBox" name="CBG22">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G22</string>
+      </property>
+     </widget>
+    </item>
     <item row="5" column="7">
      <widget class="QCheckBox" name="CBG30">
       <property name="font">
@@ -450,38 +383,6 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="8">
-     <widget class="QCheckBox" name="CBG36">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G36</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="4">
-     <widget class="QCheckBox" name="CBG18">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G18</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="5">
      <widget class="QCheckBox" name="CBG24">
       <property name="font">
@@ -495,6 +396,73 @@
       </property>
       <property name="text">
        <string>G24</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="6" colspan="3">
+     <widget class="QPushButton" name="BtnCreate">
+      <property name="text">
+       <string>Создать эффект для выбранных диодов</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QLabel" name="LblLeds">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Выберите светодиоды для эффекта:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="8">
+     <widget class="QCheckBox" name="CBG34">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G34</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QCheckBox" name="CBG11">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G11</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QCheckBox" name="CBG3">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G3</string>
       </property>
      </widget>
     </item>
@@ -530,8 +498,8 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="5">
-     <widget class="QCheckBox" name="CBG23">
+    <item row="7" column="8">
+     <widget class="QCheckBox" name="CBG36">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -542,28 +510,12 @@
        <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>G23</string>
+       <string>G36</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="7">
-     <widget class="QCheckBox" name="CBB8">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: blue</string>
-      </property>
-      <property name="text">
-       <string>B8</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="4">
-     <widget class="QCheckBox" name="CBG20">
+    <item row="7" column="7">
+     <widget class="QCheckBox" name="CBG32">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -574,71 +526,7 @@
        <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>G20</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="6">
-     <widget class="QCheckBox" name="CBB7">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: blue</string>
-      </property>
-      <property name="text">
-       <string>B7</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="6">
-     <widget class="QCheckBox" name="CBG25">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G25</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QCheckBox" name="CBG4">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G4</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="4">
-     <widget class="QCheckBox" name="CBG17">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G17</string>
+       <string>G32</string>
       </property>
      </widget>
     </item>
@@ -658,8 +546,8 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="3">
-     <widget class="QCheckBox" name="CBG15">
+    <item row="5" column="5">
+     <widget class="QCheckBox" name="CBG23">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -670,7 +558,71 @@
        <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>G15</string>
+       <string>G23</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QCheckBox" name="CBG4">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G4</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="6">
+     <widget class="QCheckBox" name="CBG25">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G25</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="4">
+     <widget class="QCheckBox" name="CBG20">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G20</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="4">
+     <widget class="QCheckBox" name="CBG17">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G17</string>
       </property>
      </widget>
     </item>
@@ -690,8 +642,8 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="3">
-     <widget class="QCheckBox" name="CBB4">
+    <item row="2" column="7">
+     <widget class="QCheckBox" name="CBB8">
       <property name="font">
        <font>
         <weight>75</weight>
@@ -702,7 +654,7 @@
        <string notr="true">color: blue</string>
       </property>
       <property name="text">
-       <string>B4</string>
+       <string>B8</string>
       </property>
      </widget>
     </item>
@@ -722,22 +674,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="3">
-     <widget class="QCheckBox" name="CBG13">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G13</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="8">
      <widget class="QCheckBox" name="CBG35">
       <property name="font">
@@ -754,6 +690,38 @@
       </property>
      </widget>
     </item>
+    <item row="6" column="3">
+     <widget class="QCheckBox" name="CBG15">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G15</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QCheckBox" name="CBB4">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: blue</string>
+      </property>
+      <property name="text">
+       <string>B4</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="0">
      <widget class="QCheckBox" name="CBAll">
       <property name="text">
@@ -761,6 +729,38 @@
       </property>
       <property name="tristate">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="6">
+     <widget class="QCheckBox" name="CBB7">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: blue</string>
+      </property>
+      <property name="text">
+       <string>B7</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QCheckBox" name="CBG13">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G13</string>
       </property>
      </widget>
     </item>
@@ -775,7 +775,7 @@
        <string notr="true">c</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="TabTO">
        <attribute name="title">
@@ -1017,25 +1017,151 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Какой-то другой эффект</string>
+        <string>Кастомный эффект</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="LblGroups">
+          <property name="text">
+           <string>Список групп:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="7">
+         <widget class="QLabel" name="LblMove">
+          <property name="text">
+           <string>Со сдвигом, ms:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="BtnAddGroup">
+          <property name="text">
+           <string>Добавить группу</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="LblLeds_2">
+          <property name="text">
+           <string>Диоды в группе:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="7">
+         <widget class="QSpinBox" name="SpinShift"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QPushButton" name="BtnAddLed">
+          <property name="text">
+           <string>Добавить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QPushButton" name="BtnDeleteLed">
+          <property name="text">
+           <string>Удалить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="4">
+         <widget class="QPushButton" name="BtnLedUp_2">
+          <property name="text">
+           <string>Выше</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <widget class="QPushButton" name="BtnLedUp">
+          <property name="text">
+           <string>Ниже</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" rowspan="5">
+         <widget class="QListWidget" name="LstGroups"/>
+        </item>
+        <item row="3" column="7">
+         <widget class="QLabel" name="LblApply">
+          <property name="text">
+           <string>Эффекты применить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
+         <widget class="QLabel" name="LblAvailable">
+          <property name="text">
+           <string>Доступные эффекты:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="5">
+         <widget class="QPushButton" name="BtnAddEffect">
+          <property name="text">
+           <string>Добавить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="6">
+         <widget class="QPushButton" name="BtnDeleteEffect">
+          <property name="text">
+           <string>Удалить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QLabel" name="LblEffects">
+          <property name="text">
+           <string>Эффекты группы:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="7" alignment="Qt::AlignTop">
+         <widget class="QComboBox" name="CBEffects">
+          <item>
+           <property name="text">
+            <string>Зажечь</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Сияние</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="1" rowspan="5" colspan="4">
+         <widget class="QListWidget" name="LstLeds"/>
+        </item>
+        <item row="2" column="5" rowspan="5" colspan="2">
+         <widget class="QListWidget" name="LstEffects"/>
+        </item>
+        <item row="4" column="7">
+         <widget class="QCheckBox" name="CBSequence">
+          <property name="text">
+           <string>Друг за другом</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QCheckBox" name="CBGreen">
-      <property name="text">
-       <string>Все зеленые</string>
-      </property>
-      <property name="tristate">
-       <bool>true</bool>
-      </property>
      </widget>
     </item>
     <item row="1" column="2">
      <widget class="QCheckBox" name="CBBlue">
       <property name="text">
        <string>Все синие</string>
+      </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QCheckBox" name="CBGreen">
+      <property name="text">
+       <string>Все зеленые</string>
       </property>
       <property name="tristate">
        <bool>true</bool>
