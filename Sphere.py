@@ -186,10 +186,10 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         with open("effect.csv", "w", encoding='utf-8', newline='') as csv_file:
             writer = csv.writer(csv_file, delimiter=',')
             for i in range(min([len(x) for x in self.effect.values()])):
+                row = [self.effect[led][i] for led in self.effect.keys()]
                 if self.CBCalibr.isChecked():
-                    pass
-                else:
-                    writer.writerow([self.effect[led][i] for led in self.effect.keys()])
+                    row = [calibr_list[x] for x in row]
+                writer.writerow(row)
             self.statusbar.showMessage("Эффект сохранен")
 
     def create_turnon_effect(self):
