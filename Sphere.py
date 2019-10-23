@@ -193,7 +193,14 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.statusbar.showMessage("Эффект сохранен")
 
     def create_turnon_effect(self):
+        """
+        creates effect for turning on/off
+        :return:
+        """
         used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
+        if not used_keys:
+            error_message("Диоды не выбраны")
+            return
         if not self.CBTOStart.isChecked():
             for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
                 n = random.randint(self.SpinTOStartFrom.value(), self.SpinToStartTo.value())
@@ -229,6 +236,9 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
+        if not used_keys:
+            error_message("Диоды не выбраны")
+            return
         start_br = self.SpinShineBrFrom.value()
         end_br = self.SpinShineBrTo.value()
         period_start = self.SpinShinePeriodFrom.value()
@@ -267,9 +277,11 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         creates shift effect
         :return:
         """
+        used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
+        if not used_keys:
+            error_message("Диоды не выбраны")
+            return
         brightness = self.SpinMoveBrightness.value()
-        # for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
-        #    led.append(brightness)
         direction = self.CBMoveDir.currentIndex()
         repeat = 5 if direction in (2, 3) else 9
         tail = self.SpinMoveTail.value()
@@ -309,6 +321,20 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 for led in self.effect.values():
                     for ms in range(period - 1):
                         led.append(led[-1])
+
+
+def error_message(text):
+    """
+    shows error window with text
+    :param text: error text
+    :return:
+    """
+    error = QtWidgets.QMessageBox()
+    error.setIcon(QtWidgets.QMessageBox.Critical)
+    error.setText(text)
+    error.setWindowTitle('Ошибка!')
+    error.setStandardButtons(QtWidgets.QMessageBox.Ok)
+    error.exec_()
 
 @logger.catch
 def main():
