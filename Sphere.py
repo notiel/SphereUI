@@ -72,13 +72,25 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                         self.CBG31: 31, self.CBG32: 32, self.CBG33: 33, self.CBG34: 34, self.CBG35: 35,
                         self.CBG36: 36, self.CBB1: 37, self.CBB2: 38, self.CBB3: 39, self.CBB4: 40,
                         self.CBB5: 41, self.CBB6: 42, self.CBB7: 43, self.CBB8: 44, self.CBB9: 45}
+
+        self.matrix = [[self.CBG1, self.CBB2, self.CBG9, self.CBG13, self.CBG17, self.CBG21, self.CBG25, self.CBB8,
+                        self.CBG33],
+                       [self.CBG2, self.CBG5, self.CBG10, self.CBB4, self.CBG18, self.CBG22, self.CBB7, self.CBG29,
+                        self.CBG34],
+                       [self.CBB1, self.CBG6, self.CBG11, self.CBG14, self.CBB5, self.CBG23, self.CBG26, self.CBG30,
+                        self.CBG35],
+                       [self.CBG3, self.CBG7, self.CBB3, self.CBG15, self.CBG19, self.CBG24, self.CBG27, self.CBG31,
+                        self.CBB9],
+                       [self.CBG4, self.CBG8, self.CBG12,  self.CBG16, self.CBG20, self.CBB6, self.CBG28, self.CBG32,
+                        self.CBG36]]
+
         self.effect = dict()
         for i in range(1, 46):
             self.effect[i] = list()
-
         self.CBGreen.clicked.connect(self.check_all)
         self.CBBlue.clicked.connect(self.check_all)
         self.CBAll.clicked.connect(self.check_all)
+
         for CB in self.green_list:
             CB.clicked.connect(self.check_led)
         for CB in self.blue_list:
@@ -155,7 +167,6 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         value = self.CBSmooth.isChecked()
         self.BtnCreate.setEnabled(not value)
 
-
     def dump(self):
         """
         dumps effect to csv file
@@ -169,11 +180,16 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         if self.tabWidget.currentIndex() == 0:
             self.create_turnon_effect()
         if self.tabWidget.currentIndex() == 1:
-           self.create_shine_effect()
+            self.create_shine_effect()
+        if self.tabWidget.currentIndex() == 2:
+            self.create_shift_effect()
         with open("effect.csv", "w", encoding='utf-8', newline='') as csv_file:
             writer = csv.writer(csv_file, delimiter=',')
             for i in range(min([len(x) for x in self.effect.values()])):
-                writer.writerow([self.effect[led][i] for led in self.effect.keys()])
+                if self.CBCalibr.isChecked():
+                    pass
+                else:
+                    writer.writerow([self.effect[led][i] for led in self.effect.keys()])
             self.statusbar.showMessage("Эффект сохранен")
 
     def create_turnon_effect(self):
@@ -245,6 +261,54 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             last = led[-1] if current > 0 else 0
             for i in range(longest - current):
                 led.append(last)
+
+    def create_shift_effect(self):
+        """
+        creates shift effect
+        :return:
+        """
+        brightness = self.SpinMoveBrightness.value()
+        # for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
+        #    led.append(brightness)
+        direction = self.CBMoveDir.currentIndex()
+        repeat = 5 if direction in (2, 3) else 9
+        tail = self.SpinMoveTail.value()
+        if direction == 0:
+            i, j = -1, 0
+        elif direction == 1:
+            i, j = 1, 0
+        elif direction == 2:
+            i, j = 0, -1
+        else:
+            i, j = 0, 1
+        period = self.SpinMovePeriod.value() // 10
+        for k in range(repeat):
+            length = len(self.effect[1])
+            for line in self.matrix:
+                for CB in line:
+                    if CB.isChecked():
+                        current_i = line.index(CB)
+                        current_j = self.matrix.index(line)
+                        for t in range(tail+1):
+                            br = brightness - t*brightness//(tail+1)
+                            next_i = (current_i + i*(k-t)) % 9
+                            next_j = (current_j + j*(k-t)) % 5
+                            next_cb = self.matrix[next_j][next_i]
+                            led = (self.effect[self.mapping[next_cb]])
+                            if len(led) == length:
+                               led.append(br)
+                            else:
+                                current = led[-1]
+                                if current < br:
+                                    led[-1] = br
+            longest = max([len(x) for x in self.effect.values()])
+            for led in self.effect.values():
+                if len(led) < longest:
+                    led.append(0)
+            if period > 1:
+                for led in self.effect.values():
+                    for ms in range(period - 1):
+                        led.append(led[-1])
 
 @logger.catch
 def main():
