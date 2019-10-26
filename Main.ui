@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1027</width>
-    <height>546</height>
+    <width>967</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Редактор эффектов</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -28,38 +28,6 @@
       </property>
       <property name="text">
        <string>B1</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="7">
-     <widget class="QCheckBox" name="CBG29">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G29</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="6">
-     <widget class="QCheckBox" name="CBG28">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G28</string>
       </property>
      </widget>
     </item>
@@ -95,22 +63,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="7">
-     <widget class="QCheckBox" name="CBG31">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G31</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="5">
      <widget class="QCheckBox" name="CBG21">
       <property name="font">
@@ -124,22 +76,6 @@
       </property>
       <property name="text">
        <string>G21</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="6">
-     <widget class="QCheckBox" name="CBG27">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G27</string>
       </property>
      </widget>
     </item>
@@ -239,22 +175,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="8">
-     <widget class="QCheckBox" name="CBB9">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: blue</string>
-      </property>
-      <property name="text">
-       <string>B9</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="1">
      <widget class="QCheckBox" name="CBG6">
       <property name="font">
@@ -284,22 +204,6 @@
       </property>
       <property name="text">
        <string>G18</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="8">
-     <widget class="QCheckBox" name="CBG33">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G33</string>
       </property>
      </widget>
     </item>
@@ -367,22 +271,6 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="7">
-     <widget class="QCheckBox" name="CBG30">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G30</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="5">
      <widget class="QCheckBox" name="CBG24">
       <property name="font">
@@ -399,13 +287,6 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="6" colspan="3">
-     <widget class="QPushButton" name="BtnCreate">
-      <property name="text">
-       <string>Создать эффект для выбранных диодов</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0" colspan="4">
      <widget class="QLabel" name="LblLeds">
       <property name="font">
@@ -415,22 +296,6 @@
       </property>
       <property name="text">
        <string>Выберите светодиоды для эффекта:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="8">
-     <widget class="QCheckBox" name="CBG34">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G34</string>
       </property>
      </widget>
     </item>
@@ -482,54 +347,6 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="6">
-     <widget class="QCheckBox" name="CBG26">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G26</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="8">
-     <widget class="QCheckBox" name="CBG36">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G36</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="7">
-     <widget class="QCheckBox" name="CBG32">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G32</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="3">
      <widget class="QCheckBox" name="CBG14">
       <property name="font">
@@ -575,22 +392,6 @@
       </property>
       <property name="text">
        <string>G4</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="6">
-     <widget class="QCheckBox" name="CBG25">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G25</string>
       </property>
      </widget>
     </item>
@@ -642,22 +443,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="7">
-     <widget class="QCheckBox" name="CBB8">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: blue</string>
-      </property>
-      <property name="text">
-       <string>B8</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="4">
      <widget class="QCheckBox" name="CBB5">
       <property name="font">
@@ -671,22 +456,6 @@
       </property>
       <property name="text">
        <string>B5</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="8">
-     <widget class="QCheckBox" name="CBG35">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: green</string>
-      </property>
-      <property name="text">
-       <string>G35</string>
       </property>
      </widget>
     </item>
@@ -722,32 +491,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QCheckBox" name="CBAll">
-      <property name="text">
-       <string>Выбрать/сбросить все</string>
-      </property>
-      <property name="tristate">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="6">
-     <widget class="QCheckBox" name="CBB7">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: blue</string>
-      </property>
-      <property name="text">
-       <string>B7</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="3">
      <widget class="QCheckBox" name="CBG13">
       <property name="font">
@@ -764,51 +507,113 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QCheckBox" name="CBBlue">
+    <item row="2" column="6">
+     <widget class="QCheckBox" name="CBG25">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
       <property name="text">
-       <string>Все синие</string>
+       <string>G25</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="7">
+     <widget class="QCheckBox" name="CBG32">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G32</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="7">
+     <widget class="QCheckBox" name="CBB8">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: blue</string>
+      </property>
+      <property name="text">
+       <string>B8</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QCheckBox" name="CBAll">
+      <property name="text">
+       <string>Выбрать/сбросить все</string>
       </property>
       <property name="tristate">
        <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QCheckBox" name="CBGreen">
-      <property name="text">
-       <string>Все зеленые</string>
+    <item row="4" column="7">
+     <widget class="QCheckBox" name="CBG29">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
-      <property name="tristate">
-       <bool>true</bool>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G29</string>
       </property>
      </widget>
     </item>
-    <item row="9" column="4" colspan="2">
-     <widget class="QCheckBox" name="CBCalibr">
+    <item row="5" column="7">
+     <widget class="QCheckBox" name="CBG30">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
       <property name="text">
-       <string>Применить калибровку</string>
+       <string>G30</string>
       </property>
      </widget>
     </item>
-    <item row="9" column="2" colspan="2">
-     <widget class="QCheckBox" name="CBSmooth">
-      <property name="enabled">
-       <bool>false</bool>
+    <item row="6" column="7">
+     <widget class="QCheckBox" name="CBG31">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
       </property>
       <property name="text">
-       <string>Сгладить с предыдущим эффектом</string>
+       <string>G31</string>
       </property>
      </widget>
     </item>
-    <item row="10" column="6" colspan="3">
-     <widget class="QPushButton" name="BtnAdd">
-      <property name="text">
-       <string>Добавить эффект к предыдущим</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0" colspan="9">
+    <item row="8" column="0" rowspan="2" colspan="9">
      <widget class="QTabWidget" name="tabWidget">
       <property name="font">
        <font>
@@ -819,7 +624,7 @@
        <string notr="true">c</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TabTO">
        <attribute name="title">
@@ -1116,6 +921,13 @@
         <string>Сдвиг</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>ms</string>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="LblMovePeriod">
           <property name="text">
@@ -1154,7 +966,7 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item row="5" column="0">
          <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -1221,10 +1033,10 @@
           </property>
          </spacer>
         </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="label_5">
+        <item row="4" column="0" colspan="2">
+         <widget class="QCheckBox" name="CBMovePause">
           <property name="text">
-           <string>ms</string>
+           <string>Использовать паузы</string>
           </property>
          </widget>
         </item>
@@ -1242,17 +1054,10 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="7">
+        <item row="5" column="8">
          <widget class="QLabel" name="LblMove">
           <property name="text">
            <string>Со сдвигом, ms:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QPushButton" name="BtnAddGroup">
-          <property name="text">
-           <string>Добавить группу</string>
           </property>
          </widget>
         </item>
@@ -1263,76 +1068,47 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="7">
+        <item row="6" column="8">
          <widget class="QSpinBox" name="SpinShift"/>
         </item>
-        <item row="7" column="1">
-         <widget class="QPushButton" name="BtnAddLed">
-          <property name="text">
-           <string>Добавить</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QPushButton" name="BtnDeleteLed">
-          <property name="text">
-           <string>Удалить</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="4">
-         <widget class="QPushButton" name="BtnLedUp_2">
-          <property name="text">
-           <string>Выше</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <widget class="QPushButton" name="BtnLedUp">
-          <property name="text">
-           <string>Ниже</string>
-          </property>
-         </widget>
+        <item row="2" column="1" rowspan="5" colspan="4">
+         <widget class="QListWidget" name="LstLeds"/>
         </item>
         <item row="2" column="0" rowspan="5">
          <widget class="QListWidget" name="LstGroups"/>
         </item>
-        <item row="3" column="7">
+        <item row="4" column="8">
+         <widget class="QCheckBox" name="CBSequence">
+          <property name="text">
+           <string>Друг за другом</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="8">
          <widget class="QLabel" name="LblApply">
           <property name="text">
            <string>Эффекты применить</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="7">
+        <item row="0" column="8">
          <widget class="QLabel" name="LblAvailable">
           <property name="text">
            <string>Доступные эффекты:</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="5">
-         <widget class="QPushButton" name="BtnAddEffect">
-          <property name="text">
-           <string>Добавить</string>
-          </property>
-         </widget>
+        <item row="2" column="6" rowspan="5" colspan="2">
+         <widget class="QListWidget" name="LstEffects"/>
         </item>
-        <item row="7" column="6">
-         <widget class="QPushButton" name="BtnDeleteEffect">
-          <property name="text">
-           <string>Удалить</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
+        <item row="0" column="6">
          <widget class="QLabel" name="LblEffects">
           <property name="text">
            <string>Эффекты группы:</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="7" alignment="Qt::AlignTop">
+        <item row="2" column="8" alignment="Qt::AlignTop">
          <widget class="QComboBox" name="CBEffects">
           <item>
            <property name="text">
@@ -1344,23 +1120,340 @@
             <string>Сияние</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>Сдвиг</string>
+           </property>
+          </item>
          </widget>
         </item>
-        <item row="2" column="1" rowspan="5" colspan="4">
-         <widget class="QListWidget" name="LstLeds"/>
-        </item>
-        <item row="2" column="5" rowspan="5" colspan="2">
-         <widget class="QListWidget" name="LstEffects"/>
-        </item>
-        <item row="4" column="7">
-         <widget class="QCheckBox" name="CBSequence">
+        <item row="7" column="1">
+         <widget class="QPushButton" name="BtnLedUp">
           <property name="text">
-           <string>Друг за другом</string>
+           <string>Ниже</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QPushButton" name="BtnLedUp_2">
+          <property name="text">
+           <string>Выше</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <widget class="QPushButton" name="BtnAddLed">
+          <property name="text">
+           <string>Добавить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="4">
+         <widget class="QPushButton" name="BtnDeleteLed">
+          <property name="text">
+           <string>Удалить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="6">
+         <widget class="QPushButton" name="BtnAddEffect">
+          <property name="text">
+           <string>Добавить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="7">
+         <widget class="QPushButton" name="BtnDeleteEffect">
+          <property name="text">
+           <string>Удалить</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="BtnAddGroup">
+          <property name="text">
+           <string>Добавить группу</string>
           </property>
          </widget>
         </item>
        </layout>
       </widget>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="LblEffects_2">
+      <property name="text">
+       <string>Список эффектов:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="8">
+     <widget class="QCheckBox" name="CBG34">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G34</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="8">
+     <widget class="QCheckBox" name="CBG36">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G36</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="8">
+     <widget class="QCheckBox" name="CBG35">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G35</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="8">
+     <widget class="QCheckBox" name="CBB9">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: blue</string>
+      </property>
+      <property name="text">
+       <string>B9</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="7">
+     <spacer name="verticalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="2">
+     <widget class="QCheckBox" name="CBGreen">
+      <property name="text">
+       <string>Все зеленые</string>
+      </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="6">
+     <widget class="QCheckBox" name="CBG26">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G26</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="6">
+     <widget class="QCheckBox" name="CBG28">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G28</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="6">
+     <widget class="QCheckBox" name="CBG27">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G27</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="6">
+     <widget class="QCheckBox" name="CBB7">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: blue</string>
+      </property>
+      <property name="text">
+       <string>B7</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="8">
+     <widget class="QCheckBox" name="CBG33">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>G33</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0" colspan="10">
+     <widget class="QListWidget" name="LstEffects_2">
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QCheckBox" name="CBBlue">
+      <property name="text">
+       <string>Все синие</string>
+      </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0" colspan="2">
+     <widget class="QCheckBox" name="CBSmooth">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Сгладить с предыдущим эффектом</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="2" colspan="2">
+     <widget class="QCheckBox" name="CBCalibr">
+      <property name="text">
+       <string>Применить калибровку</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="7" colspan="2">
+     <widget class="QPushButton" name="BtnEndRepeat">
+      <property name="text">
+       <string>Добавить конец повтора</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="QCheckBox" name="CBCsv">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Выгружать csv</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="4" colspan="2">
+     <widget class="QPushButton" name="BtnStartRepeat">
+      <property name="text">
+       <string>Добавить начало повтора</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="6">
+     <widget class="QSpinBox" name="SpinRepeat">
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <widget class="QCheckBox" name="CBH">
+      <property name="text">
+       <string>Выгружать h</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="3" colspan="3">
+     <widget class="QPushButton" name="BtnCreate">
+      <property name="text">
+       <string>Создать эффект для выбранных диодов</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="6" colspan="2">
+     <widget class="QPushButton" name="BtnAdd">
+      <property name="text">
+       <string>Добавить эффект к предыдущим</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="8">
+     <widget class="QPushButton" name="BtnDelete">
+      <property name="text">
+       <string>Удалить все</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -1370,7 +1463,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1027</width>
+     <width>967</width>
      <height>26</height>
     </rect>
    </property>

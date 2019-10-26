@@ -85,6 +85,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                         self.CBG36]]
 
         self.effect = dict()
+        self.commands = list()
         for i in range(1, 46):
             self.effect[i] = list()
         self.CBGreen.clicked.connect(self.check_all)
@@ -103,6 +104,9 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
         self.BtnCreate.clicked.connect(self.dump)
         self.BtnAdd.clicked.connect(self.dump)
+        self.BtnStartRepeat.clicked.connect(self.start_repeat_pressed)
+        self.BtnEndRepeat.clicked.connect(self.end_repeat_pressed)
+        self.BtnDelete.clicked.connect(self.delete_all)
 
     def check_led(self):
         led = self.sender()
@@ -176,21 +180,99 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         if sender == self.BtnCreate:
             for i in range(1, 46):
                 self.effect[i] = list()
+                self.LstEffects_2.clear()
+                if len(self.commands) == 1 and self.commands[0][0] == '0x22':
+                    self.LstEffects_2.addItem("Repeat %i" % self.commands[0][1])
+                else:
+                    self.commands = list()
         self.CBSmooth.setEnabled(True)
+        used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
+        if not used_keys:
+            error_message("Диоды не выбраны")
+            return
         if self.tabWidget.currentIndex() == 0:
             self.create_turnon_effect()
         if self.tabWidget.currentIndex() == 1:
             self.create_shine_effect()
         if self.tabWidget.currentIndex() == 2:
             self.create_shift_effect()
+        # csv dump
+        if self.CBCsv.isChecked():
+            self.csv_dump()
+        if self.CBH.isChecked():
+            self.h_dump()
+        self.statusbar.showMessage("Эффект сохранен")
+        self.LstEffects_2.addItem(self.get_description())
+
+    def csv_dump(self):
+        """
+        dump to csv
+        :return:
+        """
         with open("effect.csv", "w", encoding='utf-8', newline='') as csv_file:
             writer = csv.writer(csv_file, delimiter=',')
+            # get first command data
+            command_i = 0
+            if self.commands:
+                next_command_index = self.commands[0][-1]
+            else:
+                next_command_index = len(self.effect[1])
+
             for i in range(min([len(x) for x in self.effect.values()])):
+                # write command if necessary
+                if i == next_command_index:
+                    if self.commands[command_i][0] == '0x23':
+                        row = ['0x23']
+                    else:
+                        row = [self.commands[command_i][0],
+                               '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())]
+                    writer.writerow(row)
+                    if command_i < len(self.commands) - 1:
+                        command_i += 1
+                        next_command_index = self.commands[command_i][-1]
                 row = [self.effect[led][i] for led in self.effect.keys()]
                 if self.CBCalibr.isChecked():
                     row = [calibr_list[x] for x in row]
-                writer.writerow(row)
-            self.statusbar.showMessage("Эффект сохранен")
+                row = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in row]
+                new_row = ['0x18']
+                new_row.extend(row)
+                writer.writerow(new_row)
+
+    def h_dump(self):
+        """
+        dump to csv
+        :return:
+        """
+        with open("effect.h", "w", encoding='utf-8') as f:
+            dump = 'uint8_t ThePic[] = {'
+            # get first command data
+            command_i = 0
+            if self.commands:
+                next_command_index = self.commands[0][-1]
+            else:
+                next_command_index = len(self.effect[1])
+            for i in range(min([len(x) for x in self.effect.values()])):
+                # write command if necessary
+                if i == next_command_index:
+                    dump += self.commands[command_i][0]
+                    dump += ','
+                    if len(self.commands[command_i]) == 3:
+                        dump += '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())
+                        dump += ','
+                    if command_i < len(self.commands) - 1:
+                        command_i += 1
+                        next_command_index = self.commands[command_i][-1]
+                row = [self.effect[led][i] for led in self.effect.keys()]
+                if self.CBCalibr.isChecked():
+                    row = [calibr_list[x] for x in row]
+                row = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in row]
+                new_row = ['0x18']
+                new_row.extend(row)
+                dump += ','.join(new_row)
+                dump += ','
+            dump = dump[:-1]
+            dump += '};'
+            f.write(dump)
 
     def create_turnon_effect(self):
         """
@@ -198,9 +280,6 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
-        if not used_keys:
-            error_message("Диоды не выбраны")
-            return
         if not self.CBTOStart.isChecked():
             for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
                 n = random.randint(self.SpinTOStartFrom.value(), self.SpinToStartTo.value())
@@ -236,9 +315,6 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
-        if not used_keys:
-            error_message("Диоды не выбраны")
-            return
         start_br = self.SpinShineBrFrom.value()
         end_br = self.SpinShineBrTo.value()
         period_start = self.SpinShinePeriodFrom.value()
@@ -277,10 +353,6 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         creates shift effect
         :return:
         """
-        used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
-        if not used_keys:
-            error_message("Диоды не выбраны")
-            return
         brightness = self.SpinMoveBrightness.value()
         direction = self.CBMoveDir.currentIndex()
         repeat = 5 if direction in (2, 3) else 9
@@ -295,6 +367,8 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             i, j = 0, 1
         period = self.SpinMovePeriod.value() // 10
         for k in range(repeat):
+            if self.CBMovePause.isChecked() and period > 1:
+                self.commands.append(('0x36', period, len(self.effect[1])))
             length = len(self.effect[1])
             for line in self.matrix:
                 for CB in line:
@@ -308,7 +382,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                             next_cb = self.matrix[next_j][next_i]
                             led = (self.effect[self.mapping[next_cb]])
                             if len(led) == length:
-                               led.append(br)
+                                led.append(br)
                             else:
                                 current = led[-1]
                                 if current < br:
@@ -318,9 +392,128 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 if len(led) < longest:
                     led.append(0)
             if period > 1:
-                for led in self.effect.values():
-                    for ms in range(period - 1):
-                        led.append(led[-1])
+                if not self.CBMovePause.isChecked():
+                    for led in self.effect.values():
+                        for ms in range(period - 1):
+                            led.append(led[-1])
+
+    def get_description(self) -> str:
+        """
+        creates effect description
+        :return: description
+        """
+        descr: str = ""
+        if self.tabWidget.currentIndex() == 0:
+            descr = self.turn_on_descr()
+        if self.tabWidget.currentIndex() == 1:
+            descr = self.get_shine_descr()
+        if self.tabWidget.currentIndex() == 2:
+            descr = self.get_shift_descr()
+        descr += ' Диоды: %s.' % self.get_selected_leds()
+        return descr
+
+    def turn_on_descr(self) -> str:
+        """
+        creates description for turn onn effect
+        :return: description
+        """
+        descr: str = "Turn on/off: "
+        start_end: int = self.SpinToStartTo.value()
+        if self.CBTOStart.isChecked():
+            descr += 'старт: %i мс, ' % start_end
+        else:
+            start_start: int = self.SpinTOStartFrom.value()
+            descr += 'старт: %i-%i мс, ' % (start_start, start_end)
+        br_end: int = self.SpinToBrTo.value()
+        if self.CBTOBrightness.isChecked():
+            descr += "яркость: %i, " % br_end
+        else:
+            br_start: int = self.SpinTOBrFrom.value()
+            descr += "яркость: %i-%i, " % (br_start, br_end)
+        period_end: int = self.SpinTOPeriodTo.value()
+        if self.CBTOPeriod.isChecked():
+            descr += "за: %i мс." % period_end
+        else:
+            period_start: int = self.SpinToPeriodFrom.value()
+            descr += "за: %i-%i мс." % (period_start, period_end)
+        return descr
+
+    def get_shine_descr(self) -> str:
+        """
+        creates description for shine effect
+        :return:
+        """
+        descr = "Сияние: "
+        descr += 'яркость от %i до %i, ' % (self.SpinShineBrFrom.value(), self.SpinShineBrTo.value())
+        descr += ' период от %i мс до %i мс, ' % (self.SpinShinePeriodFrom.value(), self.SpinShinePeriodTo.value())
+        descr += ' в течение %i с.' % (self.SpinShineLength.value())
+        return descr
+
+    def get_shift_descr(self) -> str:
+        """
+        get description for shift effect
+        :return: description
+        """
+        descr = "Сдвиг "
+        descr += self.CBMoveDir.currentText()
+        descr += " c яркостью %i " % self.SpinMoveBrightness.value()
+        descr += "каждые %i мс, " % self.SpinMovePeriod.value()
+        descr += "шлейф: %i диода." % self.SpinMoveTail.value()
+        return descr
+
+    def get_selected_leds(self) -> str:
+        """
+        gets led list str
+        :return: str for descr
+        """
+        if self.CBAll.checkState() == QtCore.Qt.Checked:
+            return "Все"
+        if self.CBGreen.checkState() == QtCore.Qt.Checked:
+            if self.CBBlue.checkState() == QtCore.Qt.Unchecked:
+                return "Все зеленые"
+            blue_leds = ', '.join([led.text() for led in self.blue_list if led.isChecked()])
+            return "Все зеленые, " + blue_leds
+        if self.CBBlue.checkState() == QtCore.Qt.Checked:
+            if self.CBGreen.checkState() == QtCore.Qt.Unchecked:
+                return "Все синие"
+            green_leds = ', '.join([led.text() for led in self.green_list if led.isChecked()])
+            return "Все синие, " + green_leds
+        blue_leds = ', '.join([led.text() for led in self.blue_list if led.isChecked()])
+        green_leds = ', '.join([led.text() for led in self.green_list if led.isChecked()])
+        if not blue_leds:
+            return green_leds
+        if not green_leds:
+            return blue_leds
+        return green_leds + ', ' + blue_leds
+
+    def start_repeat_pressed(self):
+        """
+        add repeat command
+        :return:
+        """
+        count = self.SpinRepeat.value()
+        self.LstEffects_2.addItem("Повтор %i раз" % count)
+        self.commands.append(('0x22', count, len(self.effect[1])))
+
+    def end_repeat_pressed(self):
+        """
+        add repeat command
+        :return:
+        """
+        self.LstEffects_2.addItem("Конец повтора")
+        self.commands.append(('0x23', len(self.effect[1])))
+
+    def delete_all(self):
+        """
+        delete all effects and commands
+        :return:
+        """
+        self.commands = list()
+        self.LstEffects_2.clear()
+        for k in self.effect.keys():
+            self.effect[k] = list()
+        self.CBSmooth.setChecked(False)
+        self.CBSmooth.setEnabled(False)
 
 
 def error_message(text):
@@ -335,6 +528,7 @@ def error_message(text):
     error.setWindowTitle('Ошибка!')
     error.setStandardButtons(QtWidgets.QMessageBox.Ok)
     error.exec_()
+
 
 @logger.catch
 def main():
