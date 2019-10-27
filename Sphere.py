@@ -63,6 +63,10 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.blue_list = [self.CBB1, self.CBB2, self.CBB3, self.CBB4, self.CBB5, self.CBB6, self.CBB7, self.CBB8,
                           self.CBB9]
 
+        self.white_list = {self.CBW1, self.CBW2, self.CBW3, self.CBW4, self.CBW5, self.CBW6, self.CBW7, self.CBW8,
+                           self.CBW9, self.CBW10, self.CBW11, self.CBW12, self.CBW13, self.CBW14, self.CBW15,
+                           self.CBW16, self.CBW17, self.CBW18}
+
         self.mapping = {self.CBG1: 1, self.CBG2: 2, self.CBG3: 3, self.CBG4: 4, self.CBG5: 5,
                         self.CBG6: 6, self.CBG7: 7, self.CBG8: 8, self.CBG9: 9, self.CBG10: 10,
                         self.CBG11: 11, self.CBG12: 12, self.CBG13: 13, self.CBG14: 14, self.CBG15: 15,
@@ -72,6 +76,10 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                         self.CBG31: 31, self.CBG32: 32, self.CBG33: 33, self.CBG34: 34, self.CBG35: 35,
                         self.CBG36: 36, self.CBB1: 37, self.CBB2: 38, self.CBB3: 39, self.CBB4: 40,
                         self.CBB5: 41, self.CBB6: 42, self.CBB7: 43, self.CBB8: 44, self.CBB9: 45}
+        self.white_mapping = {self.CBW1: 46, self.CBW2: 47, self.CBW3: 48, self.CBW4: 49, self.CBW5: 50,
+                              self.CBW6: 51, self.CBW7: 52, self.CBW8: 53, self.CBW9: 54, self.CBW10: 55,
+                              self.CBW11: 56, self.CBW12: 57, self.CBW13: 58, self.CBW14: 59, self.CBW15: 60,
+                              self.CBW16: 61, self.CBW17: 62, self.CBW18: 63}
 
         self.matrix = [[self.CBG1, self.CBB2, self.CBG9, self.CBG13, self.CBG17, self.CBG21, self.CBG25, self.CBB8,
                         self.CBG33],
@@ -89,14 +97,21 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.commands = list()
         for i in range(1, 46):
             self.effect[i] = list()
+        self.white_effect = dict()
+        for i in range(46, 64):
+            self.white_effect[i] = list()
+
         self.CBGreen.clicked.connect(self.check_all)
         self.CBBlue.clicked.connect(self.check_all)
         self.CBAll.clicked.connect(self.check_all)
+        self.CBWhite.clicked.connect(self.check_all_white)
 
         for CB in self.green_list:
             CB.clicked.connect(self.check_led)
         for CB in self.blue_list:
             CB.clicked.connect(self.check_led)
+        for CB in self.white_list:
+            CB.clicked.connect(self.check_white)
 
         self.CBTOStart.stateChanged.connect(self.to_start_cb)
         self.CBTOBrightness.stateChanged.connect(self.to_brightness_cb)
@@ -128,6 +143,16 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             else:
                 self.CBBlue.setCheckState(QtCore.Qt.PartiallyChecked)
 
+    def check_white(self):
+        checked = len([cb for cb in self.white_list if cb.isChecked()])
+        if checked == 18:
+            self.CBWhite.setCheckState(QtCore.Qt.Checked)
+        elif checked == 0:
+            self.CBWhite.setCheckState(QtCore.Qt.Unchecked)
+        else:
+            self.CBWhite.setCheckState(QtCore.Qt.PartiallyChecked)
+
+
     def check_all(self):
         sender = self.sender()
         if sender == self.CBGreen or sender == self.CBBlue:
@@ -145,6 +170,12 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 value = True if self.CBBlue.checkState() else False
                 for CB in self.blue_list:
                     CB.setChecked(value)
+
+    def check_all_white(self):
+        if self.CBWhite.checkState() == QtCore.Qt.Checked or self.CBWhite.checkState() == QtCore.Qt.Unchecked:
+            value = True if self.CBWhite.checkState() == QtCore.Qt.Checked else False
+            for CB in self.white_list:
+                CB.setChecked(value)
 
         if self.CBAll.checkState() == QtCore.Qt.Checked or self.CBAll.checkState() == QtCore.Qt.Unchecked:
             value = True if self.CBAll.checkState() == QtCore.Qt.Checked else False
@@ -258,6 +289,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             dump = 'uint8_t ThePic[] = {\n'
             # get first command data
             command_i = 0
+            self.commands.sort(key=lambda x: x[-1])
             if self.commands:
                 next_command_index = self.commands[0][-1]
             else:
@@ -403,6 +435,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         else:
             i, j = 0, 1
         period = self.SpinMovePeriod.value() // 10
+        # first effect iteration
         for k in range(repeat):
             length = len(self.effect[1])
             for line in self.matrix:
@@ -433,6 +466,44 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                             led.append(led[-1])
                 else:
                     self.commands.append(['0x36', period, len(self.effect[1])])
+        # second effect iteration for repeat
+        if self.repeat:
+            command_repeat = len(self.commands) - 1
+            while command_repeat >=0 and self.commands[command_repeat][0] != '0x22':
+                command_repeat -= 1
+            if command_repeat >= 0:
+                self.commands[command_repeat][-1] = len(self.effect[1]) - 1
+            self.repeat = False
+            for k in range(repeat):
+                length = len(self.effect[1])
+                for line in self.matrix:
+                    for CB in line:
+                        if CB.isChecked():
+                            current_i = line.index(CB)
+                            current_j = self.matrix.index(line)
+                            for t in range(tail + 1):
+                                br = brightness - t * brightness // (tail + 1)
+                                next_i = (current_i + i * (k - t)) % 9
+                                next_j = (current_j + j * (k - t)) % 5
+                                next_cb = self.matrix[next_j][next_i]
+                                led = (self.effect[self.mapping[next_cb]])
+                                if len(led) == length:
+                                    led.append(br)
+                                else:
+                                    current = led[-1]
+                                    if current < br:
+                                        led[-1] = br
+                longest = max([len(x) for x in self.effect.values()])
+                for led in self.effect.values():
+                    if len(led) < longest:
+                        led.append(0)
+                if period > 1:
+                    if not self.CBMovePause.isChecked():
+                        for led in self.effect.values():
+                            for ms in range(period - 1):
+                                led.append(led[-1])
+                    else:
+                         self.commands.append(['0x36', period, len(self.effect[1])])
 
     def get_description(self) -> str:
         """

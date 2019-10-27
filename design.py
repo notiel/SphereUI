@@ -325,6 +325,7 @@ class Ui_MainWindow(object):
         self.CBG31.setObjectName("CBG31")
         self.gridLayout.addWidget(self.CBG31, 6, 7, 1, 1)
         self.CBWhite = QtWidgets.QCheckBox(self.centralwidget)
+        self.CBWhite.setTristate(True)
         self.CBWhite.setObjectName("CBWhite")
         self.gridLayout.addWidget(self.CBWhite, 9, 0, 1, 2)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)

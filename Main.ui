@@ -642,6 +642,9 @@
       <property name="text">
        <string>Выбрать все белые</string>
       </property>
+      <property name="tristate">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="12" column="0" rowspan="2" colspan="9">
