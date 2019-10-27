@@ -507,6 +507,30 @@
       </property>
      </widget>
     </item>
+    <item row="10" column="0">
+     <widget class="QCheckBox" name="CBW1">
+      <property name="text">
+       <string>W1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="2" colspan="2">
+     <widget class="QCheckBox" name="CBCalibr">
+      <property name="text">
+       <string>Применить калибровку</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0" colspan="2">
+     <widget class="QCheckBox" name="CBSmooth">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Сгладить с предыдущим эффектом</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="6">
      <widget class="QCheckBox" name="CBG25">
       <property name="font">
@@ -613,7 +637,14 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="0" rowspan="2" colspan="9">
+    <item row="9" column="0" colspan="2">
+     <widget class="QCheckBox" name="CBWhite">
+      <property name="text">
+       <string>Выбрать все белые</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0" rowspan="2" colspan="9">
      <widget class="QTabWidget" name="tabWidget">
       <property name="font">
        <font>
@@ -1180,7 +1211,7 @@
       </widget>
      </widget>
     </item>
-    <item row="13" column="0">
+    <item row="17" column="0">
      <widget class="QLabel" name="LblEffects_2">
       <property name="text">
        <string>Список эффектов:</string>
@@ -1251,7 +1282,58 @@
       </property>
      </widget>
     </item>
-    <item row="15" column="7">
+    <item row="16" column="8">
+     <widget class="QPushButton" name="BtnDelete">
+      <property name="text">
+       <string>Удалить все</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="3" colspan="3">
+     <widget class="QPushButton" name="BtnCreate">
+      <property name="text">
+       <string>Создать эффект для выбранных диодов</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="QCheckBox" name="CBH">
+      <property name="text">
+       <string>Выгружать h</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="6" colspan="2">
+     <widget class="QPushButton" name="BtnAdd">
+      <property name="text">
+       <string>Добавить эффект к предыдущим</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="0">
+     <widget class="QCheckBox" name="CBCsv">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Выгружать csv</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="9">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="7">
      <spacer name="verticalSpacer_4">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -1263,6 +1345,13 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="15" column="7" colspan="2">
+     <widget class="QPushButton" name="BtnEndRepeat">
+      <property name="text">
+       <string>Добавить конец повтора</string>
+      </property>
+     </widget>
     </item>
     <item row="1" column="2">
      <widget class="QCheckBox" name="CBGreen">
@@ -1354,7 +1443,7 @@
       </property>
      </widget>
     </item>
-    <item row="14" column="0" colspan="10">
+    <item row="18" column="0" colspan="10">
      <widget class="QListWidget" name="LstEffects_2">
       <property name="minimumSize">
        <size>
@@ -1374,85 +1463,136 @@
       </property>
      </widget>
     </item>
-    <item row="11" column="0" colspan="2">
-     <widget class="QCheckBox" name="CBSmooth">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Сгладить с предыдущим эффектом</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="2" colspan="2">
-     <widget class="QCheckBox" name="CBCalibr">
-      <property name="text">
-       <string>Применить калибровку</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="7" colspan="2">
-     <widget class="QPushButton" name="BtnEndRepeat">
-      <property name="text">
-       <string>Добавить конец повтора</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="0">
-     <widget class="QCheckBox" name="CBCsv">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string>Выгружать csv</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="4" colspan="2">
+    <item row="15" column="4" colspan="2">
      <widget class="QPushButton" name="BtnStartRepeat">
       <property name="text">
        <string>Добавить начало повтора</string>
       </property>
      </widget>
     </item>
-    <item row="11" column="6">
+    <item row="15" column="6">
      <widget class="QSpinBox" name="SpinRepeat">
       <property name="maximum">
        <number>255</number>
       </property>
      </widget>
     </item>
-    <item row="12" column="1">
-     <widget class="QCheckBox" name="CBH">
+    <item row="11" column="0">
+     <widget class="QCheckBox" name="CBW2">
       <property name="text">
-       <string>Выгружать h</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
+       <string>W2</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="3" colspan="3">
-     <widget class="QPushButton" name="BtnCreate">
+    <item row="10" column="1">
+     <widget class="QCheckBox" name="CBW3">
       <property name="text">
-       <string>Создать эффект для выбранных диодов</string>
+       <string>W3</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="6" colspan="2">
-     <widget class="QPushButton" name="BtnAdd">
+    <item row="11" column="1">
+     <widget class="QCheckBox" name="CBW4">
       <property name="text">
-       <string>Добавить эффект к предыдущим</string>
+       <string>W4</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="8">
-     <widget class="QPushButton" name="BtnDelete">
+    <item row="10" column="2">
+     <widget class="QCheckBox" name="CBW5">
       <property name="text">
-       <string>Удалить все</string>
+       <string>W5</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="2">
+     <widget class="QCheckBox" name="CBW6">
+      <property name="text">
+       <string>W6</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="3">
+     <widget class="QCheckBox" name="CBW7">
+      <property name="text">
+       <string>W7</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="3">
+     <widget class="QCheckBox" name="CBW8">
+      <property name="text">
+       <string>W8</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="4">
+     <widget class="QCheckBox" name="CBW9">
+      <property name="text">
+       <string>W9</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="4">
+     <widget class="QCheckBox" name="CBW10">
+      <property name="text">
+       <string>W10</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="5">
+     <widget class="QCheckBox" name="CBW11">
+      <property name="text">
+       <string>W11</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="5">
+     <widget class="QCheckBox" name="CBW12">
+      <property name="text">
+       <string>W12</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="6">
+     <widget class="QCheckBox" name="CBW13">
+      <property name="text">
+       <string>W13</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="6">
+     <widget class="QCheckBox" name="CBW14">
+      <property name="text">
+       <string>W14</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="7">
+     <widget class="QCheckBox" name="CBW15">
+      <property name="text">
+       <string>W15</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="7">
+     <widget class="QCheckBox" name="CBW16">
+      <property name="text">
+       <string>W16</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="8">
+     <widget class="QCheckBox" name="CBW17">
+      <property name="text">
+       <string>W17</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="8">
+     <widget class="QCheckBox" name="CBW18">
+      <property name="text">
+       <string>W18</string>
       </property>
      </widget>
     </item>

@@ -85,6 +85,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                         self.CBG36]]
 
         self.effect = dict()
+        self.repeat = False
         self.commands = list()
         for i in range(1, 46):
             self.effect[i] = list()
@@ -220,7 +221,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
             for i in range(min([len(x) for x in self.effect.values()])):
                 # write command if necessary
-                if i == next_command_index:
+                while i == next_command_index:
                     if self.commands[command_i][0] == '0x23':
                         row = ['0x23']
                     else:
@@ -230,13 +231,23 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     if command_i < len(self.commands) - 1:
                         command_i += 1
                         next_command_index = self.commands[command_i][-1]
+                    else:
+                        next_command_index = len(self.effect[1]) + 1
                 row = [self.effect[led][i] for led in self.effect.keys()]
                 if self.CBCalibr.isChecked():
                     row = [calibr_list[x] for x in row]
-                row = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in row]
-                new_row = ['0x18']
-                new_row.extend(row)
-                writer.writerow(new_row)
+                #row = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in row]
+                #new_row = ['0x18']
+                #new_row.extend(row)
+                writer.writerow(row)
+            # add last command if needed
+            if next_command_index == len(self.effect[1]) and command_i < len(self.commands):
+                 if self.commands[command_i][0] == '0x23':
+                    row = ['0x23']
+                 else:
+                    row = [self.commands[command_i][0],
+                           '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())]
+                 writer.writerow(row)
 
     def h_dump(self):
         """
@@ -244,7 +255,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         with open("effect.h", "w", encoding='utf-8') as f:
-            dump = 'uint8_t ThePic[] = {'
+            dump = 'uint8_t ThePic[] = {\n'
             # get first command data
             command_i = 0
             if self.commands:
@@ -253,15 +264,18 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 next_command_index = len(self.effect[1])
             for i in range(min([len(x) for x in self.effect.values()])):
                 # write command if necessary
-                if i == next_command_index:
+                while i == next_command_index:
                     dump += self.commands[command_i][0]
                     dump += ','
                     if len(self.commands[command_i]) == 3:
                         dump += '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())
                         dump += ','
+                    dump += '\n'
                     if command_i < len(self.commands) - 1:
                         command_i += 1
                         next_command_index = self.commands[command_i][-1]
+                    else:
+                        next_command_index = len(self.effect[1]) + 1
                 row = [self.effect[led][i] for led in self.effect.keys()]
                 if self.CBCalibr.isChecked():
                     row = [calibr_list[x] for x in row]
@@ -269,9 +283,16 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 new_row = ['0x18']
                 new_row.extend(row)
                 dump += ','.join(new_row)
+                dump += ',\n'
+            if len(self.effect[1]) == next_command_index and command_i < len(self.commands) :
+                dump += self.commands[command_i][0]
                 dump += ','
-            dump = dump[:-1]
-            dump += '};'
+                if len(self.commands[command_i]) == 3:
+                    dump += '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())
+                    dump += ','
+                dump += '\n'
+            dump = dump[:-2]
+            dump += '\n};'
             f.write(dump)
 
     def create_turnon_effect(self):
@@ -319,14 +340,26 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         end_br = self.SpinShineBrTo.value()
         period_start = self.SpinShinePeriodFrom.value()
         period_end = self.SpinShinePeriodTo.value()
+        first_brs = list()
         for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
             period = max(period_start + random.randint(0, period_end - period_start), 1)
             brightness = start_br + random.randint(0, end_br - start_br)
             step = ((brightness - start_br) / period) * 10
             first_br = led[-1] if self.CBSmooth.isChecked() else start_br
+            first_brs.append(first_br)
             first_step = ((brightness - first_br) / period) * 10
             for i in range(period // 10):
                 led.append(round(first_br + i * first_step))
+        # longest = max([len(x) for x in self.effect.values()])
+        # for led in self.effect.values():
+        #     current = len(led)
+        #     last = led[-1] if current > 0 else 0
+        #     for i in range(longest - current):
+        #         led.append(last)
+        # if self.repeat and self.CBSmooth.isChecked():
+        #     self.commands[-1][-1] = longest
+        #     self.repeat = False
+        # for led in [self.effect[key] for key in self.effect.keys() if key in used_keys]:
             cycles = (self.SpinShineLength.value()*100 - period // 10) / (2*period // 10)
             for j in range(round(cycles)):
                 for i in range(period // 10):
@@ -341,6 +374,10 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     led[-1] = brightness
                 else:
                     led.append(brightness)
+            last_step = ((first_br - brightness) / period) * 10
+            for i in range(period // 10):
+                led.append(max(min(round(brightness + i * last_step), 255), 0))
+
         longest = max([len(x) for x in self.effect.values()])
         for led in self.effect.values():
             current = len(led)
@@ -367,15 +404,13 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             i, j = 0, 1
         period = self.SpinMovePeriod.value() // 10
         for k in range(repeat):
-            if self.CBMovePause.isChecked() and period > 1:
-                self.commands.append(('0x36', period, len(self.effect[1])))
             length = len(self.effect[1])
             for line in self.matrix:
                 for CB in line:
                     if CB.isChecked():
                         current_i = line.index(CB)
                         current_j = self.matrix.index(line)
-                        for t in range(tail+1):
+                        for t in range(min(tail+1, k+1)):
                             br = brightness - t*brightness//(tail+1)
                             next_i = (current_i + i*(k-t)) % 9
                             next_j = (current_j + j*(k-t)) % 5
@@ -396,6 +431,8 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     for led in self.effect.values():
                         for ms in range(period - 1):
                             led.append(led[-1])
+                else:
+                    self.commands.append(['0x36', period, len(self.effect[1])])
 
     def get_description(self) -> str:
         """
@@ -493,7 +530,8 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         """
         count = self.SpinRepeat.value()
         self.LstEffects_2.addItem("Повтор %i раз" % count)
-        self.commands.append(('0x22', count, len(self.effect[1])))
+        self.commands.append(['0x22', count, len(self.effect[1])])
+        self.repeat = True
 
     def end_repeat_pressed(self):
         """
@@ -501,7 +539,8 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         self.LstEffects_2.addItem("Конец повтора")
-        self.commands.append(('0x23', len(self.effect[1])))
+        self.commands.append(['0x23', len(self.effect[1])])
+        self.repeat = False
 
     def delete_all(self):
         """
@@ -514,6 +553,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.effect[k] = list()
         self.CBSmooth.setChecked(False)
         self.CBSmooth.setEnabled(False)
+        self.BtnAddEffect.setEnabled(False)
 
 
 def error_message(text):
