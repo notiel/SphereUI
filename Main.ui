@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>967</width>
-    <height>677</height>
+    <height>787</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -658,7 +658,7 @@
        <string notr="true">c</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="TabTO">
        <attribute name="title">
@@ -962,6 +962,19 @@
           </property>
          </widget>
         </item>
+        <item row="5" column="4">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="LblMovePeriod">
           <property name="text">
@@ -986,6 +999,13 @@
           </property>
          </widget>
         </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QCheckBox" name="CBMoveTailVirtual">
+          <property name="text">
+           <string>Использовать виртуальный хвост</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="1">
          <widget class="QSpinBox" name="SpinMoveTail">
           <property name="maximum">
@@ -1000,7 +1020,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
+        <item row="7" column="0">
          <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -1037,6 +1057,13 @@
           </item>
          </widget>
         </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QCheckBox" name="CBMovePause">
+          <property name="text">
+           <string>Использовать паузы</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="LblMoveBrightness">
           <property name="text">
@@ -1067,10 +1094,20 @@
           </property>
          </spacer>
         </item>
-        <item row="4" column="0" colspan="2">
-         <widget class="QCheckBox" name="CBMovePause">
+        <item row="6" column="0">
+         <widget class="QSpinBox" name="SpinMoveTailVirtual"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Использовать паузы</string>
+           <string>диодов</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QCheckBox" name="CBMoveForward">
+          <property name="text">
+           <string>Шлейф вперед</string>
           </property>
          </widget>
         </item>
