@@ -1,0 +1,7 @@
+*.csv
+*.h
+.git/
+.idea/
+__pycache__
+effect_test/
+effect_release/
