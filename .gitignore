@@ -1,5 +1,6 @@
 *.csv
 *.h
+*.c
 .git/
 .idea/
 __pycache__
