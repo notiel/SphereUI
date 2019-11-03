@@ -38,9 +38,9 @@ class Frame:
         :param calibrated: take calibrated brightness instead of real
         :return:
         """
-        row = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in self.brghtnss] if not calibrated \
+        row: List[str] = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in self.brghtnss] if not calibrated \
             else ['0x' + str(calibr_list[x].to_bytes(1, byteorder='big').hex()) for x in self.brghtnss]
-        dumpdata = ','.join(row)
+        dumpdata: str = ','.join(row)
         return '0x18,' + dumpdata
 
 
@@ -49,12 +49,12 @@ class Command:
     command: str
     parameter: Optional[int]
 
-    def h_dump(self) -> str:
+    def h_dump(self, calibrated=True) -> str:
         """
         dumps command data as code and parameters as hex number
         :return:
         """
-        dumpdata = command_codes[self.command] + ','
+        dumpdata: str = command_codes[self.command] + ','
         if self.parameter:
             dumpdata += str(self.parameter.to_bytes(1, byteorder='big').hex())
         return dumpdata
@@ -67,14 +67,58 @@ class Effect:
     parameters: Dict[str, Optional[int]]
     descr: str = ""
 
-    def h_dump(self)-> str:
+    def h_dump(self, calibrated: bool) -> str:
         """
         dumps all commands and frames
         :return:
         """
-        return ',\n'.join([x.h_dump() for x in self.effect])
+        return ',\n'.join([x.h_dump(calibrated) for x in self.effect])
 
 
+def smooth(first: Effect, second: Effect, period: int) -> Effect:
+    """
+    create Smooth path from first to second effects for period ms as a number of frames and dump it
+    :param first: first effect
+    :param second: second effect
+    :param period: time of smoothing
+    :return: effect for smoothing effect1 and effect2
+    """
+    smoothing: List[Frame] = list()
+    i: int = -1
+    while isinstance(last_frame := first.effect[i], Command):
+        i -= 1
+    i = 0
+    while isinstance(first_frame := second.effect[i], Command):
+        i += 1
+    for j in range(period // 10):
+        frame: Frame = Frame(brghtnss=list())
+        for i in range(len(last_frame.brghtnss)):
+            start_br = last_frame.brghtnss[i]
+            end_br = first_frame.brghtnss[i]
+            step = ((end_br - start_br) / period) * 10
+            frame.brghtnss.append(round(start_br + i * step))
+        smoothing.append(frame)
+    smooth_effect = Effect(effect=smoothing, effect_type="Smooth", parameters=dict())
+    return smooth_effect
 
 
-
+def smooth_all(effects: List[Effect], period: int):
+    """
+    smooth all effects
+    :param period: period for smoothing
+    :param effects:
+    :return: smoothed effects
+    """
+    new_effects = list()
+    i = 0
+    while i < len(effects):
+        while isinstance(effects[i], Command) and i < len(effects):
+            i += 1
+        new_effects.append(effects[i])
+        j = i + 1
+        while isinstance(effects[j], Command) and j < len(effects):
+            j += 1
+        if j < len(effects):
+            new_effects.append(smooth(effects[i], effects[j], period))
+        i = j
+    return new_effects

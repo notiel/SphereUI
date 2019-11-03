@@ -26,6 +26,10 @@ calibr_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                177, 180, 182, 184, 186, 189, 191, 193, 196, 198, 200, 203, 205, 208, 210, 213,
                215, 218, 220, 223, 225, 228, 231, 233, 236, 239, 241, 244, 247, 249, 252, 255]
 
+GREEN = 36
+BLUE = 9
+WHITE = 18
+
 
 def setup_exception_logging():
     # generating our hook
@@ -55,7 +59,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # list of grren led checkboxes
+        # list of green led checkboxes
         self.green_list = [self.CBG1, self.CBG2, self.CBG3, self.CBG4, self.CBG5, self.CBG6, self.CBG7, self.CBG8,
                            self.CBG9, self.CBG10,
                            self.CBG11, self.CBG12, self.CBG13, self.CBG14, self.CBG15, self.CBG16, self.CBG17,
@@ -127,6 +131,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.BtnAdd.clicked.connect(self.dump)
         self.BtnStartRepeat.clicked.connect(self.start_repeat_pressed)
         self.BtnEndRepeat.clicked.connect(self.end_repeat_pressed)
+        self.BtnPause.clicked.connect(self.pause_pressed)
         self.BtnDelete.clicked.connect(self.delete_all)
 
     def check_led(self):
@@ -135,22 +140,28 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         :return:
         """
         led = self.sender()
+        checked_green: int = len([cb for cb in self.green_list if cb.isChecked()])
+        checked_blue: int = len([cb for cb in self.blue_list if cb.isChecked()])
         if led in self.green_list:
-            checked: int = len([cb for cb in self.green_list if cb.isChecked()])
-            if checked == 36:
+            if checked_green == GREEN:
                 self.CBGreen.setCheckState(QtCore.Qt.Checked)
-            elif checked == 0:
+            elif checked_green == 0:
                 self.CBGreen.setCheckState(QtCore.Qt.Unchecked)
             else:
                 self.CBGreen.setCheckState(QtCore.Qt.PartiallyChecked)
         if led in self.blue_list:
-            checked: int = len([cb for cb in self.blue_list if cb.isChecked()])
-            if checked == 9:
+            if checked_blue == BLUE:
                 self.CBBlue.setCheckState(QtCore.Qt.Checked)
-            elif checked == 0:
+            elif checked_blue == 0:
                 self.CBBlue.setCheckState(QtCore.Qt.Unchecked)
             else:
                 self.CBBlue.setCheckState(QtCore.Qt.PartiallyChecked)
+        if checked_blue == BLUE and checked_green == GREEN:
+            self.CBAll.setCheckState(QtCore.Qt.Checked)
+        elif not checked_blue and not checked_green:
+            self.CBAll.setCheckState(QtCore.Qt.Unchecked)
+        else:
+            self.CBAll.setCheckState(QtCore.Qt.PartiallyChecked)
 
     def check_white(self):
         """
@@ -186,6 +197,15 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 value = True if self.CBBlue.checkState() else False
                 for CB in self.blue_list:
                     CB.setChecked(value)
+        else:
+            state = self.CBAll.checkState()
+            if state in [QtCore.Qt.Checked, QtCore.Qt.Unchecked]:
+                value = True if state == QtCore.Qt.Checked else False
+                for CB in self.green_list:
+                    CB.setChecked(value)
+                for CB in self.blue_list:
+                    CB.setChecked(value)
+
 
     def check_all_white(self):
         if self.CBWhite.checkState() == QtCore.Qt.Checked or self.CBWhite.checkState() == QtCore.Qt.Unchecked:
@@ -234,6 +254,7 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 else:
                     self.commands = list()
         self.CBSmooth.setEnabled(True)
+        self.BtnAdd.setEnabled(True)
         used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
         if not used_keys:
             error_message("Диоды не выбраны")
@@ -249,8 +270,9 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         #    self.csv_dump()
         if self.CBH.isChecked():
             self.h_dump()
-        self.statusbar.showMessage("Эффект сохранен")
-        self.LstEffects_2.addItem(self.get_description())
+        if sender in [self.BtnCreate, self.BtnAdd]:
+            self.statusbar.showMessage("Эффект сохранен")
+            self.LstEffects_2.addItem(self.get_description())
 
     # def csv_dump(self):
     #    """
@@ -725,6 +747,15 @@ class SphereUi(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.LstEffects_2.addItem("Конец повтора")
         self.commands.append(['0x23', len(self.effect[1])])
         self.repeat = False
+        self.dump()
+
+    def pause_pressed(self):
+        """
+        button to add pause
+        :return:
+        """
+        pause = self.SpinPause.value()
+        self.commands.append(['0x36', pause, len(self.effect[1])])
 
     def delete_all(self):
         """
@@ -756,6 +787,7 @@ def error_message(text):
 
 @logger.catch
 def main():
+    print(calibr_list[130])
     setup_exception_logging()
     app = QtWidgets.QApplication(sys.argv)
     window = SphereUi()
