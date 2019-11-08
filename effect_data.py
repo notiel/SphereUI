@@ -1,5 +1,10 @@
 from dataclasses import dataclass
 from typing import List, Optional, Union, Dict
+import random
+
+GREEN = 36
+BLUE = 9
+WHITE = 18
 
 calibr_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
@@ -19,6 +24,14 @@ calibr_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                215, 218, 220, 223, 225, 228, 231, 233, 236, 239, 241, 244, 247, 249, 252, 255]
 
 command_codes = {'Repeat': '0x22', 'EndOfRepeat': '0x23', 'Pause': '0x36'}
+
+dir_dict = {0: (-1, 0), 1: (1, 0), 2: (0, -1), 3: (0, 1)}
+
+index_mapping = [[1, 8, 15, 22, 29, 36, 43, 50, 57],
+                 [2, 9, 16, 23, 30, 37, 44, 51, 58],
+                 [3, 10, 17, 24, 31, 38, 45, 52, 59],
+                 [4, 11, 18, 25, 32, 39, 46, 53, 60],
+                 [5, 12, 19, 26, 33, 40, 47, 54, 61]]
 
 
 @dataclass
@@ -54,9 +67,9 @@ class Command:
         dumps command data as code and parameters as hex number
         :return:
         """
-        dumpdata: str = command_codes[self.command] + ','
+        dumpdata: str = command_codes[self.command]
         if self.parameter:
-            dumpdata += str(self.parameter.to_bytes(1, byteorder='big').hex())
+            dumpdata += ',0x' + str(self.parameter.to_bytes(1, byteorder='big').hex())
         return dumpdata
 
 
@@ -65,7 +78,6 @@ class Effect:
     effect: List[Union[Frame, Command]]
     effect_type: str
     parameters: Dict[str, Optional[int]]
-    descr: str = ""
 
     def h_dump(self, calibrated: bool) -> str:
         """
@@ -122,3 +134,260 @@ def smooth_all(effects: List[Effect], period: int):
             new_effects.append(smooth(effects[i], effects[j], period))
         i = j
     return new_effects
+
+
+def get_last_frame(effects: List[Effect]) -> Optional[Frame]:
+    """
+    gets last from from list of Effects
+    :param effects:
+    :return:
+    """
+    if not effects:
+        return None
+    i = -1
+    while abs(i) <= len(effects) and not isinstance(last_effect := effects[i], Effect):
+        i -= 1
+    if abs(i) > len(effects):
+        return None
+    i = -1
+    while abs(i) <= len(last_effect.effect) and not isinstance(last_frame := last_effect.effect[i], Frame):
+        i -= 1
+    if abs(i) > len(last_effect.effect):
+        return None
+    return last_frame
+
+
+def create_turn_on(start_start: int, start_end: int, lowest_br: int, highest_br: int, period_start: int,
+                   period_end: int, used_keys: List[int], last_frame: Optional[Frame]) -> Effect:
+    """
+    creates turn on/off effect
+    :param last_frame: last frame to take brightness if necessary
+    :param used_keys: list of keys for effect
+    :param start_start: min start time
+    :param start_end: max start time
+    :param lowest_br: lowest brightness
+    :param highest_br: highest brightness
+    :param period_start: min period
+    :param period_end: max period
+    :return: effect created
+    """
+    leds: [Dict[int, List[int]]] = dict()
+    for i in range(1, GREEN + BLUE + WHITE + 1):
+        leds[i] = list()
+    for led in [leds[key] for key in leds.keys() if key in used_keys]:
+        n: int = random.randint(start_start, start_end)
+        for i in range((start_start + n) // 10):
+            led.append(0)
+    for (led, key) in [(leds[key], key) for key in leds.keys() if key in used_keys]:
+        start_br: int = last_frame.brghtnss[key-1] if last_frame else 0
+        period: int = max(period_start + random.randint(0, period_end - period_start), 1)
+        brightness: int = lowest_br + random.randint(0, highest_br - lowest_br) if lowest_br < highest_br else \
+            lowest_br - random.randint(0, lowest_br - highest_br)
+        step = ((brightness - start_br) / period) * 10
+        for i in range(period // 10 + 1):
+            led.append(min(max(round(start_br + i * step), 0), 255))
+    longest: int = max([len(x) for x in leds.values()])
+    for led in leds.values():
+        last = led[-1] if (current := len(led)) > 0 else 0
+        for i in range(longest - current):
+            led.append(last)
+    parameters = create_param_dict_to(start_start, start_end, lowest_br, highest_br, period_start, period_end)
+    effect = Effect(effect=list(), effect_type="TurnOn", parameters=parameters)
+    for i in range(longest):
+        frame = Frame(brghtnss=[led[i] for led in leds.values()])
+        effect.effect.append(frame)
+    return effect
+
+
+def create_param_dict_to(start_start, start_end, lowest_br, highest_br, period_start, period_end) \
+        -> Dict[str, Optional[int]]:
+    """
+    creates param list for turn on effect
+    :param start_start: start of turn on effect start
+    :param start_end: end of turn on effect end
+    :param lowest_br: lowest brightness of turn on
+    :param highest_br:  highest brightness of turn on
+    :param period_start: minimal period
+    :param period_end: maximum period
+    :return: dict of parameters to create description
+    """
+    parameters = dict()
+    parameters['start_start'] = None if start_start == start_end else start_start
+    parameters['start_end'] = start_end
+    parameters['brightness_start'] = None if highest_br == lowest_br else lowest_br
+    parameters['birghtness_end'] = highest_br
+    parameters['period_start'] = None if period_start == period_end else period_start
+    parameters['period_end'] = period_end
+    return parameters
+
+
+def create_shine(start_br: int, end_br: int, period_start: int, period_end: int, length: int, used_keys: List[int]) \
+        -> Effect:
+    """
+    creates shine effect
+    :param used_keys: used leds
+    :param start_br: min brightness
+    :param end_br: max brightness
+    :param period_start: min period
+    :param period_end: max period
+    :param length:general length
+    :return: effect created
+    """
+    leds: [Dict[int, List[int]]] = dict()
+    for i in range(1, GREEN + BLUE + WHITE + 1):
+        leds[i] = list()
+    for led in [leds[key] for key in leds.keys() if key in used_keys]:
+        period: int = max(period_start + random.randint(0, period_end - period_start), 1)
+        brightness: int = start_br + random.randint(0, end_br - start_br)
+        step: float = ((brightness - start_br) / period) * 10
+        cycles: float = (length * 100) / (2 * period // 10)
+        for j in range(round(cycles)):
+            for i in range(period // 10):
+                led.append(round(start_br + i * step))
+            for i in range(period // 10):
+                led.append(round(brightness - i * step))
+    longest: int = max([len(x) for x in leds.values()])
+    for led in leds.values():
+        last = led[-1] if (current := len(led) > 0) else 0
+        for i in range(longest - current):
+            led.append(last)
+    parameters = create_shine_params(start_br, end_br, period_start, period_end, length)
+    effect = Effect(effect=list(), effect_type="Shine", parameters=parameters)
+    for i in range(longest):
+        frame = Frame(brghtnss=[led[i] for led in leds.values()])
+        effect.effect.append(frame)
+    return effect
+
+
+def create_shine_params(start_br: int, end_br: int, period_start: int, period_end: int, length: int) \
+        -> Dict[str, int]:
+    """
+    creates parameters dict for shine effect
+    :param start_br: lowest lrightness
+    :param end_br: highest brightness
+    :param period_start:  min period
+    :param period_end: max period
+    :param length: lenght of effect
+    :return: parameters dict
+    """
+    parameters = dict()
+    parameters['start_brightness'] = start_br
+    parameters['end_brightness'] = end_br
+    parameters['period_start'] = period_start
+    parameters['period_end'] = period_end
+    parameters['length'] = length
+    return parameters
+
+
+def shift_iteration(brightness: int, direction: int, tail: int, period: int, k: int, tail_range: int, forward: bool,
+                    pause: bool, key_matrix: List[List[bool]], effect: Effect):
+    """
+
+    :param pause: use pause commands
+    :param brightness: brightness of shift
+    :param direction: direction of shifting
+    :param tail: length of tail
+    :param period: period of shifting
+    :param effect: effect to add iteration to
+    :param k: number of iteration
+    :param tail_range: range of tail (differnt for first and other iterations)
+    :param forward: use forward tail too
+    :param key_matrix: leds used
+    :return:
+    """
+    i, j = dir_dict[direction][0], dir_dict[direction][1]
+    leds: [Dict[int, List[int]]] = dict()
+    for i in range(1, GREEN + BLUE + WHITE + 1):
+        leds[i] = list()
+    for line in key_matrix:
+        for led in line:
+            if led:
+                current_i = line.index(led)
+                current_j = key_matrix.index(line)
+                for t in range(tail_range):
+                    br = brightness - t * brightness // (tail + 1)
+                    next_i = (current_i + i * (k - t)) % 9
+                    next_j = (current_j + j * (k - t)) % 5
+                    led = (leds[index_mapping[next_j][next_i]])
+                    if not len(led):
+                        led.append(br)
+                    elif led[-1] < br:
+                        led[-1] = br
+                    if forward:
+                        next_i = (current_i + i * (k + t)) % 9
+                        next_j = (current_j + j * (k + t)) % 5
+                        led = (leds[index_mapping[next_j][next_i]])
+                        if not led:
+                            led = [br]
+                        elif led[-1] < br:
+                            led[-1] = br
+    for led in leds.values():
+        if not led:
+            led = [0]
+    frame = Frame(brghtnss=[led[0] for led in leds.values()])
+    effect.effect.append(frame)
+    if period > 1:
+        if not pause:
+            for ms in range(period - 1):
+                effect.effect.append(frame)
+        else:
+            effect.effect.append(Command(command='pause', parameter=period))
+
+
+def create_shift_effect(direction: int, brightness: int, period: int, tail: int, forward: bool, pause: bool,
+                        repeat_flag: bool, all_effects: List[Union[Effect, Command]], key_matrix: List[List[bool]]) \
+        -> Effect:
+    """
+    сreate iteration for shifting
+    :param direction: direction of shift
+    :param brightness: brightness of shifted leds
+    :param period: period to shift
+    :param tail: length of tail
+    :param forward: if tail is forward too
+    :param pause: use pause command or use multiplicating of frames
+    :param repeat_flag: if repeat is enabled
+    :param all_effects: all created effects
+    :param key_matrix: matrix of leds used
+    :return:
+    """
+    # first effect iteration
+    effect = Effect(effect=list(), effect_type="shift", parameters=dict())
+    repeat = 5 if direction in (2, 3) else 9
+    if not forward:
+        for k in range(repeat):
+            shift_iteration(brightness, direction, tail, period, k, min(tail + 1, k + 1), False, pause,
+                            key_matrix, effect)
+        # second effect iteration for repeat
+        if repeat_flag:
+            i = -1
+            while not isinstance(all_effects[i], Command) or all_effects[i].command != 'Repeat':
+                i -= 1
+            repeats = all_effects[i].parameter
+            all_effects.pop(i)
+            effect.effect.append(Command(command='Repeat', parameter=repeats))
+            for k in range(repeat):
+                shift_iteration(brightness, direction, tail, period, k, tail + 1, False, pause, key_matrix, effect)
+    else:
+        for k in range(repeat):
+            shift_iteration(brightness, direction, tail, period, k, tail + 1, True, pause, key_matrix, effect)
+    return effect
+
+
+def create_shift_params(brightness: int, direction: int,  period: int, tail: int, forward: bool) \
+        -> Dict[str, int]:
+    """
+    create parameters for shift
+    :param brightness: brightness of shift
+    :param direction: direction of shift
+    :param period: period of shifting
+    :param tail: length of tail
+    :param forward: move forwards or not
+    :return: dict of parameters
+    """
+    parameters = dict()
+    parameters['brightness'] = brightness
+    parameters['direction'] = direction
+    parameters['period'] = period
+    parameters['tail'] = tail
+    parameters['forward'] = forward
+    return parameters

@@ -1,17 +1,11 @@
 import design_new
+from effect_data import *
 from PyQt5 import QtCore, QtWidgets
 import sys
 import os
 from loguru import logger
-import random
 from typing import List, Dict, Union
-from effect_data import *
-
 # import csv
-
-GREEN = 36
-BLUE = 9
-WHITE = 18
 
 
 def setup_exception_logging():
@@ -43,16 +37,17 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # list of green led checkboxes
-        self.green_list = [self.CBG1, self.CBG2, self.CBG3, self.CBG4, self.CBG5, self.CBG6, self.CBG7, self.CBG8,
-                           self.CBG9, self.CBG10,
-                           self.CBG11, self.CBG12, self.CBG13, self.CBG14, self.CBG15, self.CBG16, self.CBG17,
-                           self.CBG18, self.CBG19, self.CBG20, self.CBG21, self.CBG22, self.CBG23, self.CBG24,
-                           self.CBG25, self.CBG26, self.CBG27, self.CBG28, self.CBG29, self.CBG31, self.CBG32,
-                           self.CBG33, self.CBG34, self.CBG35, self.CBG36, self.CBG30]
+        self.green_list: List[QtWidgets.QCheckBox] = [self.CBG1, self.CBG2, self.CBG3, self.CBG4, self.CBG5, self.CBG6,
+                                                      self.CBG7, self.CBG8, self.CBG9, self.CBG10, self.CBG11,
+                                                      self.CBG12, self.CBG13, self.CBG14, self.CBG15, self.CBG16,
+                                                      self.CBG17, self.CBG18, self.CBG19, self.CBG20, self.CBG21,
+                                                      self.CBG22, self.CBG23, self.CBG24, self.CBG25, self.CBG26,
+                                                      self.CBG27, self.CBG28, self.CBG29, self.CBG31, self.CBG32,
+                                                      self.CBG33, self.CBG34, self.CBG35, self.CBG36, self.CBG30]
 
         # list of blue led checkboxes
-        self.blue_list = [self.CBB1, self.CBB2, self.CBB3, self.CBB4, self.CBB5, self.CBB6, self.CBB7, self.CBB8,
-                          self.CBB9]
+        self.blue_list: List[QtWidgets.QCheckBox] = [self.CBB1, self.CBB2, self.CBB3, self.CBB4, self.CBB5, self.CBB6,
+                                                     self.CBB7, self.CBB8, self.CBB9]
 
         # list of white list checkboxes
         self.white_list = {self.CBW1, self.CBW2, self.CBW3, self.CBW4, self.CBW5, self.CBW6, self.CBW7, self.CBW8,
@@ -60,37 +55,38 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
                            self.CBW16, self.CBW17, self.CBW18}
 
         # mapping of checkbox and index of led in effect dict
-        self.mapping: Dict[QtWidgets.QCheckBox, int] = {self.CBG1: 1, self.CBG2: 2, self.CBG3: 4, self.CBG4: 5, self.CBG5: 9,
-                        self.CBG6: 10, self.CBG7: 11, self.CBG8: 12, self.CBG9: 15, self.CBG10: 16,
-                        self.CBG11: 17, self.CBG12: 19, self.CBG13: 22, self.CBG14: 24, self.CBG15: 25,
-                        self.CBG16: 26, self.CBG17: 29, self.CBG18: 30, self.CBG19: 32, self.CBG20: 33,
-                        self.CBG21: 36, self.CBG22: 37, self.CBG23: 38, self.CBG24: 39, self.CBG25: 43,
-                        self.CBG26: 45, self.CBG27: 46, self.CBG28: 47, self.CBG29: 51, self.CBG30: 52,
-                        self.CBG31: 53, self.CBG32: 54, self.CBG33: 57, self.CBG34: 58, self.CBG35: 59,
-                        self.CBG36: 61, self.CBB1: 3, self.CBB2: 8, self.CBB3: 18, self.CBB4: 23,
-                        self.CBB5: 31, self.CBB6: 40, self.CBB7: 44, self.CBB8: 50, self.CBB9: 60,
-                        self.CBW1: 6, self.CBW2: 7, self.CBW3: 13, self.CBW4: 14, self.CBW5: 20,
-                        self.CBW6: 21, self.CBW7: 27, self.CBW8: 28, self.CBW9: 34, self.CBW10: 35,
-                        self.CBW11: 41, self.CBW12: 42, self.CBW13: 48, self.CBW14: 49, self.CBW15: 55,
-                        self.CBW16: 56, self.CBW17: 62, self.CBW18: 63}
+        self.mapping: Dict[QtWidgets.QCheckBox, int] = {self.CBG1: 1, self.CBG2: 2, self.CBG3: 4, self.CBG4: 5,
+                                                        self.CBG5: 9, self.CBG6: 10, self.CBG7: 11, self.CBG8: 12,
+                                                        self.CBG9: 15, self.CBG10: 16, self.CBG11: 17, self.CBG12: 19,
+                                                        self.CBG13: 22, self.CBG14: 24, self.CBG15: 25, self.CBG16: 26,
+                                                        self.CBG17: 29, self.CBG18: 30, self.CBG19: 32, self.CBG20: 33,
+                                                        self.CBG21: 36, self.CBG22: 37, self.CBG23: 38, self.CBG24: 39,
+                                                        self.CBG25: 43, self.CBG26: 45, self.CBG27: 46, self.CBG28: 47,
+                                                        self.CBG29: 51, self.CBG30: 52, self.CBG31: 53, self.CBG32: 54,
+                                                        self.CBG33: 57, self.CBG34: 58, self.CBG35: 59, self.CBG36: 61,
+                                                        self.CBB1: 3, self.CBB2: 8, self.CBB3: 18, self.CBB4: 23,
+                                                        self.CBB5: 31, self.CBB6: 40, self.CBB7: 44, self.CBB8: 50,
+                                                        self.CBB9: 60, self.CBW1: 6, self.CBW2: 7, self.CBW3: 13,
+                                                        self.CBW4: 14, self.CBW5: 20, self.CBW6: 21, self.CBW7: 27,
+                                                        self.CBW8: 28, self.CBW9: 34, self.CBW10: 35, self.CBW11: 41,
+                                                        self.CBW12: 42, self.CBW13: 48, self.CBW14: 49, self.CBW15: 55,
+                                                        self.CBW16: 56, self.CBW17: 62, self.CBW18: 63}
 
         # leds in a matrix for shift effect
-        self.matrix = [[self.CBG1, self.CBB2, self.CBG9, self.CBG13, self.CBG17, self.CBG21, self.CBG25, self.CBB8,
-                        self.CBG33],
-                       [self.CBG2, self.CBG5, self.CBG10, self.CBB4, self.CBG18, self.CBG22, self.CBB7, self.CBG29,
-                        self.CBG34],
-                       [self.CBB1, self.CBG6, self.CBG11, self.CBG14, self.CBB5, self.CBG23, self.CBG26, self.CBG30,
-                        self.CBG35],
-                       [self.CBG3, self.CBG7, self.CBB3, self.CBG15, self.CBG19, self.CBG24, self.CBG27, self.CBG31,
-                        self.CBB9],
-                       [self.CBG4, self.CBG8, self.CBG12, self.CBG16, self.CBG20, self.CBB6, self.CBG28, self.CBG32,
-                        self.CBG36]]
+        self.matrix: List[List[QtWidgets.QCheckBox]] = [[self.CBG1, self.CBB2, self.CBG9, self.CBG13, self.CBG17,
+                                                         self.CBG21, self.CBG25, self.CBB8, self.CBG33],
+                                                        [self.CBG2, self.CBG5, self.CBG10, self.CBB4, self.CBG18,
+                                                         self.CBG22, self.CBB7, self.CBG29, self.CBG34],
+                                                        [self.CBB1, self.CBG6, self.CBG11, self.CBG14, self.CBB5,
+                                                         self.CBG23, self.CBG26, self.CBG30, self.CBG35],
+                                                        [self.CBG3, self.CBG7, self.CBB3, self.CBG15, self.CBG19,
+                                                         self.CBG24, self.CBG27, self.CBG31, self.CBB9],
+                                                        [self.CBG4, self.CBG8, self.CBG12, self.CBG16, self.CBG20,
+                                                         self.CBB6, self.CBG28, self.CBG32, self.CBG36]]
 
-        self.effect: Dict[int, List[int]] = dict()
         self.repeat: bool = False
-
         self.groups: List[Group] = list()
-        self.effects: List[Effect] = list()
+        self.effects: List[Union[Effect, Command]] = list()
 
         self.CBGreen.clicked.connect(self.check_all)
         self.CBBlue.clicked.connect(self.check_all)
@@ -114,6 +110,8 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         self.BtnEndRepeat.clicked.connect(self.end_repeat_pressed)
         self.BtnPause.clicked.connect(self.pause_pressed)
         self.BtnDelete.clicked.connect(self.delete_all)
+        for line in self.matrix:
+            print(','.join([str(self.mapping[CB]) for CB in line]))
 
     def check_led(self):
         """
@@ -225,23 +223,25 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         dumps effect to csv file
         :return:
         """
-        used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
-        if not used_keys:
-            error_message("Диоды не выбраны")
-            return
-        if self.tabWidget.currentIndex() == 0:
-            self.create_turnon_effect()
-        if self.tabWidget.currentIndex() == 1:
-            self.create_shine_effect()
-        if self.tabWidget.currentIndex() == 2:
-            self.create_shift_effect()
-        # csv dump
+        if self.sender() == self.BtnCreate:
+            used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
+            if not used_keys:
+                error_message("Диоды не выбраны")
+                return
+            if self.tabWidget.currentIndex() == 0:
+                self.create_turnon_effect()
+            if self.tabWidget.currentIndex() == 1:
+                self.create_shine_effect()
+            if self.tabWidget.currentIndex() == 2:
+                self.create_shift_effect()
+            # csv dump
         # if self.CBCsv.isChecked():
         #    self.csv_dump()
         if self.CBH.isChecked():
             self.h_dump()
         self.statusbar.showMessage("Эффект сохранен")
-        self.LstEffects_2.addItem(self.get_description())
+        if self.sender() == self.BtnCreate:
+            self.LstEffects_2.addItem(self.get_description())
 
     # def csv_dump(self):
     #    """
@@ -295,7 +295,7 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         with open("effect.h", "w", encoding='utf-8') as f:
             dump = 'uint8_t ThePic[] = {\n'
             dump += ',\n'.join([effect.h_dump(self.CBCalibr.isChecked()) for effect in self.effects])
-            dump += '0xF1'
+            dump += ',\n0xF1'
             dump += '\n};'
             f.write(dump)
 
@@ -304,267 +304,53 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         creates effect for turning on/off
         :return:
         """
-        leds: [Dict[int, List[int]]] = dict()
-        for i in range(1, GREEN+BLUE+WHITE+1):
-            leds[i] = list()
         used_keys: List[int] = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
-        start_start: int = self.SpinTOStartFrom.value() if not self.CBTOStart.isChecked() else self.SpinToStartTo.value()
+        start_start: int = self.SpinTOStartFrom.value() if not self.CBTOStart.isChecked() \
+            else self.SpinToStartTo.value()
         start_end: int = self.SpinToStartTo.value()
-        if not self.CBTOStart.isChecked():
-            for led in [leds[key] for key in leds.keys() if key in used_keys]:
-                n: int = random.randint(start_start, start_end)
-                for i in range(n // 10):
-                    led.append(0)
         lowest_br: int = self.SpinToBrTo.value() if self.CBTOBrightness.isChecked() else self.SpinTOBrFrom.value()
         highest_br: int = self.SpinToBrTo.value()
         period_start: int = self.SpinToPeriodFrom.value() if not self.CBTOPeriod.isChecked() else \
             self.SpinTOPeriodTo.value()
         period_end: int = self.SpinTOPeriodTo.value()
-        for led in [leds[key] for key in leds.keys() if key in used_keys]:
-            start_br: int = led[-1] if self.CBSmooth.isChecked() else 0
-            period: int = max(period_start + random.randint(0, period_end - period_start), 1)
-            brightness: int = lowest_br + random.randint(0, highest_br - lowest_br) if lowest_br < highest_br else \
-                lowest_br - random.randint(0, lowest_br - highest_br)
-            step = ((brightness - start_br) / period) * 10
-            for i in range(period // 10):
-                led.append(round(start_br + i * step))
-        longest: int = max([len(x) for x in leds.values()])
-        for led in self.effect.values():
-            last = led[-1] if (current := len(led)) > 0 else 0
-            for i in range(longest - current):
-                led.append(last)
-        parameters = self.create_param_dict_to(start_start, start_end, lowest_br, highest_br, period_start, period_end)
-        effect = Effect(effect=list(), effect_type="TurnOn", parameters=parameters, descr=self.get_description())
-        for i in range(longest):
-            frame = Frame(brghtnss=[led[i] for led in leds.values()])
-            effect.effect.append(frame)
-        self.effects.append(effect)
-
-    @staticmethod
-    def create_param_dict_to(start_start, start_end, lowest_br, highest_br, period_start, period_end) \
-            -> Dict[str, Optional[int]]:
-        """
-        creates param list for turn on effect
-        :param start_start: start of turn on effect start
-        :param start_end: end of turn on effect end
-        :param lowest_br: lowest brightness of turn on
-        :param highest_br:  highest brightness of turn on
-        :param period_start: minimal period
-        :param period_end: maximum period
-        :return: dict of parameters to create description
-        """
-        parameters = dict()
-        parameters['start_start'] = None if start_start == start_end else start_start
-        parameters['start_end'] = start_end
-        parameters['brightness_start'] = None if highest_br == lowest_br else lowest_br
-        parameters['birghtness_end'] = highest_br
-        parameters['period_start'] = None if period_start == period_end else period_start
-        parameters['period_end'] = period_end
-        return parameters
+        if self.CBSmooth.isChecked():
+            last_frame = get_last_frame(self.effects)
+        else:
+            last_frame = None
+        self.effects.append(create_turn_on(start_start, start_end, lowest_br, highest_br, period_start, period_end,
+                                           used_keys, last_frame))
 
     def create_shine_effect(self):
         """
         create shining effect from second tab
         :return:
         """
-        leds: [Dict[int, List[int]]] = dict()
-        for i in range(1, GREEN + BLUE + WHITE + 1):
-            leds[i] = list()
-        used_keys: List [int] = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
+        used_keys: List[int] = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
         start_br: int = self.SpinShineBrFrom.value()
         end_br: int = self.SpinShineBrTo.value()
         period_start: int = self.SpinShinePeriodFrom.value()
         period_end: int = self.SpinShinePeriodTo.value()
-        for led in [leds[key] for key in leds.keys() if key in used_keys]:
-            period: int = max(period_start + random.randint(0, period_end - period_start), 1)
-            brightness: int = start_br + random.randint(0, end_br - start_br)
-            step: float = ((brightness - start_br) / period) * 10
-            cycles: float = (self.SpinShineLength.value() * 100) / (2 * period // 10)
-            for j in range(round(cycles)):
-                for i in range(period // 10):
-                    led.append(round(start_br + i * step))
-                for i in range(period // 10):
-                    led.append(round(brightness - i * step))
-        longest: int = max([len(x) for x in self.effect.values()])
-        for led in self.effect.values():
-            last = led[-1] if (current := len(led) > 0) else 0
-            for i in range(longest - current):
-                led.append(last)
-        parameters = self.create_shine_params(start_br, end_br, period_start, period_end, length)
-        effect = Effect(effect=list(), effect_type="Shine", parameters=dict(), descr=self.get_description())
-        for i in range(longest):
-            frame = Frame(brghtnss=[led[i] for led in leds.values()])
-            effect.effect.append(frame)
-        self.effects.append(effect)
-
-    @staticmethod
-    def create_shine_params(self, start_br: int, end_br: int, period_start: int, period_end: int, length: int) \
-            -> Dict[str, int]:
-        """
-        creates parameters dict for shine effect
-        :param start_br: lowest lrightness
-        :param end_br: highest brightness
-        :param period_start:  min period
-        :param period_end: max period
-        :param length: lenght of effect
-        :return: parameters dict
-        """
-
-        parameters = dict()
-        parameters['start_brightness'] = start_br
-        parameters['end_brightness'] = end_br
-        parameters['period_start'] = period_start
-        parameters['period_end'] = period_end
-        parameters['length'] = length
-        return parameters
+        length: int = self.SpinShineLength.value()
+        self.effects.append(create_shine(start_br, end_br, period_start, period_end, length, used_keys))
 
     def create_shift_effect(self):
         """
         creates shift effect
         :return:
         """
-        # used_keys = [self.mapping[x] for x in self.mapping.keys() if x.isChecked()]
-        # if len([x for x in range(46, 64) if x in used_keys]) > 0:
-        #     error_message("Белые диоды не могут участвовать в этом эффекте и будут проигнорированы")
-        # brightness = self.SpinMoveBrightness.value()
         direction = self.CBMoveDir.currentIndex()
-        # repeat = 5 if direction in (2, 3) else 9
         tail = self.SpinMoveTail.value()
-        # first effect iteration
-        repeat = 5 if direction in (2, 3) else 9
-        if not self.CBMoveForward.isChecked():
-            for k in range(repeat):
-                self.shift_iteration(k, min(tail + 1, k + 1), False)
-        # second effect iteration for repeat
-            if self.repeat:
-                command_repeat = len(self.commands) - 1
-                while command_repeat >= 0 and self.commands[command_repeat][0] != '0x22':
-                    command_repeat -= 1
-                if command_repeat >= 0:
-                    self.commands[command_repeat][-1] = len(self.effect[1])
-                self.repeat = False
-                for k in range(repeat):
-                    self.shift_iteration(k, tail + 1, False)
-        else:
-            for k in range(repeat):
-                self.shift_iteration(k, tail+1, True)
-
-    def shift_iteration_bugged(self, k, tail_range, forward):
-        """
-        one iteration for shift effect
-        :return:
-        """
         brightness = self.SpinMoveBrightness.value()
-        direction = self.CBMoveDir.currentIndex()
-        tail = self.SpinMoveTail.value()
-        length = len(self.effect[1])
         period = self.SpinMovePeriod.value() // 10
-        if direction == 0:
-            i, j = -1, 0
-        elif direction == 1:
-            i, j = 1, 0
-        elif direction == 2:
-            i, j = 0, -1
-        else:
-            i, j = 0, 1
+        checked_keys = list()
         for line in self.matrix:
+            checked_keys.append(list())
             for CB in line:
-                if CB.isChecked():
-                    current_i = line.index(CB)
-                    current_j = self.matrix.index(line)
-                    for t in range(tail_range):
-                        br = brightness - t * brightness // (tail + 1)
-                        next_i = (current_i + i * (k - t)) % 9
-                        next_j = (current_j + j * (k - t)) % 5
-                        next_cb = self.matrix[next_j][next_i]
-                        led = (self.effect[self.mapping[next_cb]])
-                        if len(led) == length:
-                            led.append(br)
-                        else:
-                            current = led[-1]
-                            if current < br:
-                                led[-1] = br
-                        if forward:
-                            next_i = (current_i - i * (k - t)) % 9
-                            next_j = (current_j - j * (k - t)) % 5
-                            next_cb = self.matrix[next_j][next_i]
-                            led = (self.effect[self.mapping[next_cb]])
-                            if len(led) == length:
-                                led.append(br)
-                            else:
-                                current = led[-1]
-                                if current < br:
-                                    led[-1] = br
-        longest = max([len(x) for x in self.effect.values()])
-        for led in self.effect.values():
-            if len(led) < longest:
-                led.append(0)
-        if period > 1:
-            if not self.CBMovePause.isChecked():
-                for led in self.effect.values():
-                    for ms in range(period - 1):
-                        led.append(led[-1])
-            else:
-                self.commands.append(['0x36', period, len(self.effect[1])])
-
-    def shift_iteration(self, k, tail_range, forward):
-        """
-        one iteration for shift effect
-        :return:
-        """
-        brightness = self.SpinMoveBrightness.value()
-        direction = self.CBMoveDir.currentIndex()
-        tail = self.SpinMoveTail.value()
-        length = len(self.effect[1])
-        period = self.SpinMovePeriod.value() // 10
-        if direction == 0:
-            i, j = -1, 0
-        elif direction == 1:
-            i, j = 1, 0
-        elif direction == 2:
-            i, j = 0, -1
-        else:
-            i, j = 0, 1
-        for line in self.matrix:
-            for CB in line:
-                if CB.isChecked():
-                    current_i = line.index(CB)
-                    current_j = self.matrix.index(line)
-                    for t in range(tail_range):
-                        br = brightness - t * brightness // (tail + 1)
-                        next_i = (current_i + i * (k - t)) % 9
-                        next_j = (current_j + j * (k - t)) % 5
-                        next_cb = self.matrix[next_j][next_i]
-                        led = (self.effect[self.mapping[next_cb]])
-                        if len(led) == length:
-                            led.append(br)
-                        else:
-                            current = led[-1]
-                            if current < br:
-                                led[-1] = br
-                        if forward:
-                            next_i = (current_i + i * (k + t)) % 9
-                            next_j = (current_j + j * (k + t)) % 5
-                            next_cb = self.matrix[next_j][next_i]
-                            led = (self.effect[self.mapping[next_cb]])
-                            if len(led) == length:
-                                led.append(br)
-                            else:
-                                current = led[-1]
-                                if current < br:
-                                    led[-1] = br
-        longest = max([len(x) for x in self.effect.values()])
-        for led in self.effect.values():
-            if len(led) < longest:
-                led.append(0)
-        if period > 1:
-            if not self.CBMovePause.isChecked():
-                for led in self.effect.values():
-                    for ms in range(period - 1):
-                        led.append(led[-1])
-            else:
-                self.commands.append(['0x36', period, len(self.effect[1])])
-
+                checked_keys[-1].append(True) if CB.isChecked() else checked_keys[-1].append(False)
+        self.repeat = False
+        self.effects.append(
+            create_shift_effect(direction, brightness, period, tail, self.CBMoveForward.isChecked(),
+                                self.CBMovePause.isChecked(), self.repeat, self.effects, checked_keys))
 
     def get_description(self) -> str:
         """
@@ -637,29 +423,6 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         gets led list str
         :return: str for descr
         """
-        # if self.CBAll.checkState() == QtCore.Qt.Checked:
-        #     if self.CBWhite.checkState() == QtCore.Qt.Checked:
-        #         return "Все"
-        #     elif self.CBWhite.checkState() == QtCore.Qt.Unchecked:
-        #         return "Все зеленые и синие"
-        #     elif
-        # if self.CBGreen.checkState() == QtCore.Qt.Checked:
-        #     if self.CBBlue.checkState() == QtCore.Qt.Unchecked:
-        #         return "Все зеленые"
-        #     blue_leds = ', '.join([led.text() for led in self.blue_list if led.isChecked()])
-        #     return "Все зеленые, " + blue_leds
-        # if self.CBBlue.checkState() == QtCore.Qt.Checked:
-        #     if self.CBGreen.checkState() == QtCore.Qt.Unchecked:
-        #         return "Все синие"
-        #     green_leds = ', '.join([led.text() for led in self.green_list if led.isChecked()])
-        #     return "Все синие, " + green_leds
-        # blue_leds = ', '.join([led.text() for led in self.blue_list if led.isChecked()])
-        # green_leds = ', '.join([led.text() for led in self.green_list if led.isChecked()])
-        # if not blue_leds:
-        #     return green_leds
-        # if not green_leds:
-        #     return blue_leds
-        # return green_leds + ', ' + blue_leds
         res = ""
         green_leds = [led.text() for led in self.green_list if led.isChecked()]
         blue_leds = [led.text() for led in self.blue_list if led.isChecked()]
@@ -693,7 +456,7 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         """
         count = self.SpinRepeat.value()
         self.LstEffects_2.addItem("Повтор %i раз" % count)
-        self.commands.append(['0x22', count, len(self.effect[1])])
+        self.effects.append(Command(command="Repeat", parameter=count))
         self.repeat = True
 
     def end_repeat_pressed(self):
@@ -702,7 +465,7 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         :return:
         """
         self.LstEffects_2.addItem("Конец повтора")
-        self.commands.append(['0x23', len(self.effect[1])])
+        self.effects.append(Command(command='EndOfRepeat', parameter=None))
         self.repeat = False
         self.dump()
 
@@ -712,17 +475,15 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         :return:
         """
         pause = self.SpinPause.value()
-        self.commands.append(['0x36', pause, len(self.effect[1])])
+        self.effects.append(Command(command='pause', parameter=pause))
 
     def delete_all(self):
         """
         delete all effects and commands
         :return:
         """
-        self.commands = list()
+        self.effects = list()
         self.LstEffects_2.clear()
-        for k in self.effect.keys():
-            self.effect[k] = list()
         self.CBSmooth.setChecked(False)
         self.CBSmooth.setEnabled(False)
         self.BtnAddEffect.setEnabled(False)
