@@ -864,7 +864,7 @@
            <number>99999999</number>
           </property>
           <property name="value">
-           <number>1000</number>
+           <number>0</number>
           </property>
          </widget>
         </item>
@@ -1586,7 +1586,14 @@
      </widget>
     </item>
     <item row="17" column="1">
-     <widget class="QSpinBox" name="SpinPause"/>
+     <widget class="QSpinBox" name="SpinPause">
+      <property name="maximum">
+       <number>9999</number>
+      </property>
+      <property name="value">
+       <number>10</number>
+      </property>
+     </widget>
     </item>
     <item row="17" column="0">
      <widget class="QPushButton" name="BtnPause">

@@ -475,7 +475,9 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         :return:
         """
         pause = self.SpinPause.value()
-        self.effects.append(Command(command='pause', parameter=pause))
+        self.effects.append(Command(command='Pause', parameter=pause))
+        self.LstEffects_2.addItem("Пауза %i кадров" % pause)
+        self.dump()
 
     def delete_all(self):
         """
@@ -484,9 +486,6 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
         """
         self.effects = list()
         self.LstEffects_2.clear()
-        self.CBSmooth.setChecked(False)
-        self.CBSmooth.setEnabled(False)
-        self.BtnAddEffect.setEnabled(False)
 
 
 def error_message(text):

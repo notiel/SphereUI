@@ -295,35 +295,35 @@ def shift_iteration(brightness: int, direction: int, tail: int, period: int, k: 
     :param key_matrix: leds used
     :return:
     """
-    i, j = dir_dict[direction][0], dir_dict[direction][1]
+    move_i, move_j = dir_dict[direction][0], dir_dict[direction][1]
     leds: [Dict[int, List[int]]] = dict()
     for i in range(1, GREEN + BLUE + WHITE + 1):
         leds[i] = list()
-    for line in key_matrix:
-        for led in line:
-            if led:
-                current_i = line.index(led)
-                current_j = key_matrix.index(line)
+    for row in range(len(key_matrix)):
+        for col in range(len(key_matrix[0])):
+            if key_matrix[row][col]:
+                current_i = col
+                current_j = row
                 for t in range(tail_range):
                     br = brightness - t * brightness // (tail + 1)
-                    next_i = (current_i + i * (k - t)) % 9
-                    next_j = (current_j + j * (k - t)) % 5
+                    next_i = (current_i + move_i * (k - t)) % 9
+                    next_j = (current_j + move_j * (k - t)) % 5
                     led = (leds[index_mapping[next_j][next_i]])
                     if not len(led):
                         led.append(br)
                     elif led[-1] < br:
                         led[-1] = br
                     if forward:
-                        next_i = (current_i + i * (k + t)) % 9
-                        next_j = (current_j + j * (k + t)) % 5
+                        next_i = (current_i + move_i * (k + t)) % 9
+                        next_j = (current_j + move_j * (k + t)) % 5
                         led = (leds[index_mapping[next_j][next_i]])
                         if not led:
-                            led = [br]
+                            led.append(br)
                         elif led[-1] < br:
                             led[-1] = br
     for led in leds.values():
         if not led:
-            led = [0]
+            led.append(0)
     frame = Frame(brghtnss=[led[0] for led in leds.values()])
     effect.effect.append(frame)
     if period > 1:
@@ -331,7 +331,7 @@ def shift_iteration(brightness: int, direction: int, tail: int, period: int, k: 
             for ms in range(period - 1):
                 effect.effect.append(frame)
         else:
-            effect.effect.append(Command(command='pause', parameter=period))
+            effect.effect.append(Command(command='Pause', parameter=period))
 
 
 def create_shift_effect(direction: int, brightness: int, period: int, tail: int, forward: bool, pause: bool,
