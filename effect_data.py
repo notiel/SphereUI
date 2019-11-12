@@ -45,16 +45,24 @@ class Group:
 class Frame:
     brghtnss: List[int]
 
-    def h_dump(self, calibrated=True) -> str:
+    def h_dump(self, calibrated: bool = True) -> str:
         """
         dumps frame as list of hex integers (with command 0x18 at the beginning of dump)
         :param calibrated: take calibrated brightness instead of real
-        :return:
+        :return: str to write to .h file
         """
         row: List[str] = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in self.brghtnss] if not calibrated \
             else ['0x' + str(calibr_list[x].to_bytes(1, byteorder='big').hex()) for x in self.brghtnss]
         dumpdata: str = ','.join(row)
         return '0x18,' + dumpdata
+
+    def csv_dump(self, calibrated: bool = True) -> List[str]:
+        """
+        prepares brightnesses to be dumped to csv
+        :param calibrated: take calibrated brightness instead of real
+        :return:
+        """
+        return [str(calibr_list[x]) for x in self.brghtnss] if calibrated else [str(x) for x in self.brghtnss]
 
 
 @dataclass
@@ -62,7 +70,7 @@ class Command:
     command: str
     parameter: Optional[int]
 
-    def h_dump(self, calibrated=True) -> str:
+    def h_dump(self, calibrated: bool = True) -> str:
         """
         dumps command data as code and parameters as hex number
         :return:
@@ -71,6 +79,14 @@ class Command:
         if self.parameter:
             dumpdata += ',0x' + str(self.parameter.to_bytes(1, byteorder='big').hex())
         return dumpdata
+
+    def csv_dump(self, calibrated: bool = True) -> List[str]:
+        """
+        prepares command for csv dumping
+        :param calibrated: not really used, for universalization
+        :return:
+        """
+        return [self.command, str(self.parameter)] if self.parameter else [self.command]
 
 
 @dataclass
@@ -85,6 +101,14 @@ class Effect:
         :return:
         """
         return ',\n'.join([x.h_dump(calibrated) for x in self.effect])
+
+    def csv_dump(self, calibrated=bool) -> List[List[str]]:
+        """
+        prepares effect data to write to csv
+        :param calibrated:
+        :return:
+        """
+        return [x.csv_dump(calibrated) for x in self.effect]
 
 
 def smooth(first: Effect, second: Effect, period: int) -> Effect:
@@ -108,30 +132,40 @@ def smooth(first: Effect, second: Effect, period: int) -> Effect:
             start_br = last_frame.brghtnss[i]
             end_br = first_frame.brghtnss[i]
             step = ((end_br - start_br) / period) * 10
-            frame.brghtnss.append(round(start_br + i * step))
+            min_br = min(start_br, end_br)
+            max_br = max(start_br, end_br)
+            new_br = round(start_br + j * step)
+            frame.brghtnss.append(new_br) if min_br <= new_br <= max_br else frame.brghtnss.append(end_br)
         smoothing.append(frame)
     smooth_effect = Effect(effect=smoothing, effect_type="Smooth", parameters=dict())
     return smooth_effect
 
 
-def smooth_all(effects: List[Effect], period: int):
+def smooth_all(effects: List[Union[Effect, Command]], period: int):
     """
     smooth all effects
     :param period: period for smoothing
     :param effects:
     :return: smoothed effects
     """
-    new_effects = list()
+    new_effects: List[Effect] = list()
     i = 0
     while i < len(effects):
-        while isinstance(effects[i], Command) and i < len(effects):
+        while i < len(effects) and isinstance(effects[i], Command):
+            new_effects.append(effects[i])
             i += 1
-        new_effects.append(effects[i])
+        if i < len(effects):
+            new_effects.append(effects[i])
         j = i + 1
-        while isinstance(effects[j], Command) and j < len(effects):
+        while j < len(effects) and isinstance(effects[j], Command):
+            if effects[j].command != 'Repeat':
+                new_effects.append(effects[j])
             j += 1
-        if j < len(effects):
+        if j < len(effects) and effects[j].effect_type != 'TurnOn':
             new_effects.append(smooth(effects[i], effects[j], period))
+        for k in range(i+1, j):
+            if effects[k].command == 'Repeat':
+                new_effects.append(effects[k])
         i = j
     return new_effects
 
@@ -171,9 +205,7 @@ def create_turn_on(start_start: int, start_end: int, lowest_br: int, highest_br:
     :param period_end: max period
     :return: effect created
     """
-    leds: [Dict[int, List[int]]] = dict()
-    for i in range(1, GREEN + BLUE + WHITE + 1):
-        leds[i] = list()
+    leds: Dict[int, List[int]] = {i: list() for i in range(1, GREEN + BLUE + WHITE + 1)}
     for led in [leds[key] for key in leds.keys() if key in used_keys]:
         n: int = random.randint(start_start, start_end)
         for i in range((start_start + n) // 10):
@@ -233,9 +265,7 @@ def create_shine(start_br: int, end_br: int, period_start: int, period_end: int,
     :param length:general length
     :return: effect created
     """
-    leds: [Dict[int, List[int]]] = dict()
-    for i in range(1, GREEN + BLUE + WHITE + 1):
-        leds[i] = list()
+    leds: Dict[int, List[int]] = {i: list() for i in range(1, GREEN + BLUE + WHITE + 1)}
     for led in [leds[key] for key in leds.keys() if key in used_keys]:
         period: int = max(period_start + random.randint(0, period_end - period_start), 1)
         brightness: int = start_br + random.randint(0, end_br - start_br)
@@ -296,9 +326,7 @@ def shift_iteration(brightness: int, direction: int, tail: int, period: int, k: 
     :return:
     """
     move_i, move_j = dir_dict[direction][0], dir_dict[direction][1]
-    leds: [Dict[int, List[int]]] = dict()
-    for i in range(1, GREEN + BLUE + WHITE + 1):
-        leds[i] = list()
+    leds: Dict[int, List[int]] = {i: list() for i in range(1, GREEN + BLUE + WHITE + 1)}
     for row in range(len(key_matrix)):
         for col in range(len(key_matrix[0])):
             if key_matrix[row][col]:

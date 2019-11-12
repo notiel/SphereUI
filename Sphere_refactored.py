@@ -5,7 +5,7 @@ import sys
 import os
 from loguru import logger
 from typing import List, Dict, Union
-# import csv
+import csv
 
 
 def setup_exception_logging():
@@ -235,66 +235,33 @@ class SphereUi(QtWidgets.QMainWindow, design_new.Ui_MainWindow):
             if self.tabWidget.currentIndex() == 2:
                 self.create_shift_effect()
             # csv dump
-        # if self.CBCsv.isChecked():
-        #    self.csv_dump()
+        if self.CBCsv.isChecked():
+            self.csv_dump(smooth_all(self.effects, 1000))
         if self.CBH.isChecked():
-            self.h_dump()
+            self.h_dump(smooth_all(self.effects, 1000))
         self.statusbar.showMessage("Эффект сохранен")
         if self.sender() == self.BtnCreate:
             self.LstEffects_2.addItem(self.get_description())
 
-    # def csv_dump(self):
-    #    """
-    #    dump to csv
-    #    :return:
-    #    """
-    #    with open("effect.csv", "w", encoding='utf-8', newline='') as csv_file:
-    #       writer = csv.writer(csv_file, delimiter=',')
-    #       # get first command data
-    #       command_i = 0
-    #       if self.commands:
-    #           next_command_index = self.commands[0][-1]
-    #       else:
-    #           next_command_index = len(self.effect[1])
+    def csv_dump(self, effects):
+        """
+        dump to csv
+        :return:
+        """
+        with open("effect.csv", "w", encoding='utf-8', newline='') as csv_file:
+            writer = csv.writer(csv_file, delimiter=',')
+            for effect in effects:
+                for line in effect.csv_dump(self.CBCalibr.isChecked()):
+                    writer.writerow(line)
 
-    #       for i in range(min([len(x) for x in self.effect.values()])):
-    #           # write command if necessary
-    #           while i == next_command_index:
-    #               if self.commands[command_i][0] == '0x23':
-    #                   row = ['0x23']
-    #               else:
-    #                   row = [self.commands[command_i][0],
-    #                          '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())]
-    #               writer.writerow(row)
-    #               if command_i < len(self.commands) - 1:
-    #                   command_i += 1
-    #                   next_command_index = self.commands[command_i][-1]
-    #               else:
-    #                   next_command_index = len(self.effect[1]) + 1
-    #           row = [self.effect[led][i] for led in self.effect.keys()]
-    #           if self.CBCalibr.isChecked():
-    #               row = [calibr_list[x] for x in row]
-    #           #row = ['0x' + str(x.to_bytes(1, byteorder='big').hex()) for x in row]
-    #           #new_row = ['0x18']
-    #           #new_row.extend(row)
-    #           writer.writerow(row)
-    #       # add last command if needed
-    #       if next_command_index == len(self.effect[1]) and command_i < len(self.commands):
-    #            if self.commands[command_i][0] == '0x23':
-    #               row = ['0x23']
-    #            else:
-    #               row = [self.commands[command_i][0],
-    #                      '0x' + str(self.commands[command_i][1].to_bytes(1, byteorder='big').hex())]
-    #            writer.writerow(row)
-
-    def h_dump(self):
+    def h_dump(self, effects):
         """
         dump to h file
         :return:
         """
         with open("effect.h", "w", encoding='utf-8') as f:
             dump = 'uint8_t ThePic[] = {\n'
-            dump += ',\n'.join([effect.h_dump(self.CBCalibr.isChecked()) for effect in self.effects])
+            dump += ',\n'.join([effect.h_dump(self.CBCalibr.isChecked()) for effect in effects])
             dump += ',\n0xF1'
             dump += '\n};'
             f.write(dump)
